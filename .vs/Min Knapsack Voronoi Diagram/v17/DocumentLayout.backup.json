@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\MinKnapsack.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|solutionrelative:MinKnapsack.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|solutionrelative:Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\triangle.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_2.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_3.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\equilatero.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\equilatero_norm.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|solutionrelative:equilatero_norm.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,84 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "triangle.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\triangle.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\triangle.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\triangle.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\triangle.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-09-28T17:38:39.672Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "example_2.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_2.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\example_2.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_2.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\example_2.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-09-28T17:38:35.756Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "example_3.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_3.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\example_3.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_3.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\example_3.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-09-28T17:38:34.491Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "equilatero.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\equilatero.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\equilatero.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\equilatero.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\equilatero.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-09-28T17:38:17.841Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MinKnapsack.cpp",
+              "DocumentMoniker": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\MinKnapsack.cpp",
+              "RelativeDocumentMoniker": "MinKnapsack.cpp",
+              "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\MinKnapsack.cpp",
+              "RelativeToolTip": "MinKnapsack.cpp",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAAAGwAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-28T17:40:23.679Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Main.cpp",
               "DocumentMoniker": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Main.cpp",
               "RelativeDocumentMoniker": "Main.cpp",
               "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Main.cpp",
               "RelativeToolTip": "Main.cpp",
-              "ViewState": "AgIAAAoBAAAAAAAAAAD4vw8BAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAIwAAAAAAAAAAAAAAJoAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-09-28T17:32:20.285Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "equilatero_norm.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\equilatero_norm.txt",
-              "RelativeDocumentMoniker": "equilatero_norm.txt",
-              "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\equilatero_norm.txt",
-              "RelativeToolTip": "equilatero_norm.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-09-28T17:30:02.469Z",
               "EditorCaption": ""
             }
           ]
