@@ -263,4 +263,11 @@ C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master
               T=double
           ]
   
-  Min Knapsack Voronoi Diagram.vcxproj -> C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\x64\Debug\Min Knapsack Voronoi Diagram.exe
+  MinKnapsack.cpp
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(286,19): warning C4267: '=': conversione da 'size_t' a 'long'. Possibile perdita di dati.
+  NewDiagram.h
+  Generazione del codice in corso...
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(63,1): error C4716: 'circumcenter': deve restituire un valore
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(143,1): error C4716: 'circumcenterInside': deve restituire un valore
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(68,1): error C4716: 'circumcenter': deve restituire un valore
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(44,1): warning C4172: verrà restituito l'indirizzo del valore : t temporaneo o della variabile locale

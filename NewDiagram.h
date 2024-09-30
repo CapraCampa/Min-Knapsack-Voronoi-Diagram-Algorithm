@@ -37,10 +37,10 @@ namespace Voronoi{
             std::vector<Site*> triplet; /**< Triplet of sites of which the point is a circumcenter */
             bool infinite = false; /*< If it's true the vertex is at infinity and the point value isn't significant **/
 
-            static Vertex& getNullVertex() {
+            static Vertex* getNullVertex() {
                 static Vertex null_vertex; // Static instance
                 null_vertex.infinite = true;
-                return null_vertex;
+                return &null_vertex;
             }
 
         private:

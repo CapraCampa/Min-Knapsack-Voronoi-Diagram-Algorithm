@@ -9,6 +9,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|solutionrelative:Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\NewDiagram.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|solutionrelative:NewDiagram.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +22,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NewDiagram.h",
+              "DocumentMoniker": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\NewDiagram.h",
+              "RelativeDocumentMoniker": "NewDiagram.h",
+              "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\NewDiagram.h",
+              "RelativeToolTip": "NewDiagram.h",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACsAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-09-29T15:49:39.127Z"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,9 +44,9 @@
               "RelativeDocumentMoniker": "MinKnapsack.cpp",
               "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\MinKnapsack.cpp",
               "RelativeToolTip": "MinKnapsack.cpp",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAAAGwAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAPIAAAAAAAAAAAAAAIIAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-09-28T17:40:23.679Z",
+              "WhenOpened": "2024-09-29T09:17:33.656Z",
               "EditorCaption": ""
             },
             {
@@ -41,10 +57,9 @@
               "RelativeDocumentMoniker": "Main.cpp",
               "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Main.cpp",
               "RelativeToolTip": "Main.cpp",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAAAJoAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAkwNYAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-09-28T17:32:20.285Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-28T17:32:20.285Z"
             }
           ]
         }

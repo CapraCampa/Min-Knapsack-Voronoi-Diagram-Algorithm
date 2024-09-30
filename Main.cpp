@@ -191,7 +191,7 @@ void modifyStructure(const Diagram<double>& diagram,
         else {
             //v1_new = newDiagram.createVertex(NULL);
             //v1_new->infinite = true;
-            v1_new = &Voronoi::NewDiagram::Vertex::getNullVertex();
+            v1_new = Voronoi::NewDiagram::Vertex::getNullVertex();
         }
         e_new->head = v1_new;
 
@@ -212,7 +212,7 @@ void modifyStructure(const Diagram<double>& diagram,
         else {
             //v2_new = newDiagram.createVertex(NULL);
             //v2_new->infinite = true;
-            v2_new = &Voronoi::NewDiagram::Vertex::getNullVertex();
+            v2_new = Voronoi::NewDiagram::Vertex::getNullVertex();
         }
         e_new->tail = v2_new;
 
@@ -324,7 +324,7 @@ void modifyStructure(const Diagram<double>& diagram,
 
 
     //Construct the min-knapsack Voronoi diagram
-    build_minKnapsack(newDiagram, points_with_weights, capacity);
+    //build_minKnapsack(newDiagram, points_with_weights, capacity);
 
 
     // Visualize the diagram
