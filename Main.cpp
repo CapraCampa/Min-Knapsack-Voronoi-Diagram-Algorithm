@@ -15,12 +15,12 @@
 #include <fstream> 
 #include <stdio.h>
 #include <MyGAL/FortuneAlgorithm.h>
-#include "NewDiagram.h"
+//#include "NewDiagram.h"
 #include "MinKnapsack.h"
 #include <SFML/Graphics.hpp>
 
 
-using namespace mygal;
+namespace vor = Voronoi;
 
 long progressiveID = 0;
 
@@ -79,28 +79,28 @@ void drawGrid(sf::RenderWindow& window, int gridSpacing) {
 }
 
 // Function to initialize edge points for SFML
-void initEdgePointsVis(Voronoi::NewDiagram::HalfEdge h, sf::VertexArray& line,
+void initEdgePointsVis(Voronoi::NewDiagram::HalfEdgePtr& h, sf::VertexArray& line,
     const std::vector<std::pair<Point2D,double>>& points) {
-    if (!h.head->infinite && !h.twin->head->infinite) {
+    if (!h->head->infinite && !h->twin->head->infinite) {
         // Both vertices defined, draw line between them
-        line[0].position = sf::Vector2f(h.head->point.x, h.head->point.y);
-        line[1].position = sf::Vector2f(h.twin->head->point.x , h.twin->head->point.y);
+        line[0].position = sf::Vector2f(h->head->point.x, h->head->point.y);
+        line[1].position = sf::Vector2f(h->twin->head->point.x , h->twin->head->point.y);
     }
-    else if (!h.head->infinite) {
+    else if (!h->head->infinite) {
         // One vertex is defined, project the other
-        line[0].position = sf::Vector2f(h.head->point.x, h.head->point.y);
-        Point2D norm = (points[h.twin->label->index].first - points[h.label->index].first).normalized().getRotated90CCW();
+        line[0].position = sf::Vector2f(h->head->point.x, h->head->point.y);
+        Point2D norm = (points[h->twin->label->index].first - points[h->label->index].first).normalized().getRotated90CCW();
         line[1].position = sf::Vector2f((line[0].position.x + norm.x * 1000), (line[0].position.y + norm.y * 1000));
     }
-    else if (!h.twin->head->infinite) {
+    else if (!h->twin->head->infinite) {
         // Only the twin's vertex is defined, project the other
-        line[0].position = sf::Vector2f(h.twin->head->point.x , h.twin->head->point.y);
-        Point2D norm = (points[h.label->index].first - points[h.twin->label->index].first).normalized().getRotated90CCW();
+        line[0].position = sf::Vector2f(h->twin->head->point.x , h->twin->head->point.y);
+        Point2D norm = (points[h->label->index].first - points[h->twin->label->index].first).normalized().getRotated90CCW();
         line[1].position = sf::Vector2f((line[0].position.x + norm.x * 1000), (line[0].position.y + norm.y * 1000));
     }
     else {
         // No vertices defined, project both points
-        Point2D p1 = points[h.twin->label->index].first, p2 = points[h.label->index].first;
+        Point2D p1 = points[h->twin->label->index].first, p2 = points[h->label->index].first;
         Point2D norm = (p1 - p2).normalized().getRotated90CCW();
         Point2D c = 0.5 * (p1 + p2);
         line[0].position = sf::Vector2f((c.x + norm.x * 1000), (c.y + norm.y * 1000));
@@ -114,15 +114,15 @@ void initEdgePointsVis(Voronoi::NewDiagram::HalfEdge h, sf::VertexArray& line,
 }
 
 // Function to modify the old Voronoi diagram structure to a new one
-void modifyStructure(const Diagram<double>& diagram,
+void modifyStructure(const mygal::Diagram<double>& diagram,
     Voronoi::NewDiagram& newDiagram) {
 
     // Create a map from old vertices to new vertices
-    std::unordered_map<mygal::Diagram<double>::Vertex*, Voronoi::NewDiagram::Vertex*> mapVertices;
+    std::unordered_map<mygal::Diagram<double>::Vertex*, Voronoi::NewDiagram::VertexPtr> mapVertices;
     // Create a map from old halfedges to new halfedges
-    std::unordered_map<mygal::Diagram<double>::HalfEdge*, Voronoi::NewDiagram::HalfEdge*> mapHalfedges;
+    std::unordered_map<mygal::Diagram<double>::HalfEdge*, Voronoi::NewDiagram::HalfEdgePtr> mapHalfedges;
     //Create a map from old regions to new regions
-    std::unordered_map<Diagram<double>::Face*, Voronoi::NewDiagram::Face*> mapFaces;
+    std::unordered_map<mygal::Diagram<double>::Face*, Voronoi::NewDiagram::FacePtr> mapFaces;
 
     //Connects halfedges & vertices & faces
     for (auto& e : diagram.getHalfEdges()) {
@@ -151,7 +151,7 @@ void modifyStructure(const Diagram<double>& diagram,
             f_incident->flag = true;
             f_incident->sites = { newDiagram.getSite(e.incidentFace->site->index) };
             f_incident->weight = newDiagram.getWeight(e.incidentFace->site->index);
-            if (f_incident->weight >= newDiagram.getTotal()) {
+            if (f_incident->weight <= newDiagram.getTotal()) {
                 f_incident->pivot = nullptr;
             }
             else {
@@ -176,7 +176,7 @@ void modifyStructure(const Diagram<double>& diagram,
         }
 
         // Check if there is a origin vertex of the old halfedge
-        Voronoi::NewDiagram::Vertex* v1_new;
+        Voronoi::NewDiagram::VertexPtr v1_new;
         if (e.origin != nullptr) {
             if (mapVertices.find(e.origin)==mapVertices.end()) {
                 auto v_origin = newDiagram.createVertex(Point2D(e.origin->point.x, e.origin->point.y));
@@ -197,7 +197,7 @@ void modifyStructure(const Diagram<double>& diagram,
 
 
         // Analogous operations with the destination vertex of the old halfedge
-        Voronoi::NewDiagram::Vertex* v2_new;
+        Voronoi::NewDiagram::VertexPtr v2_new;
         if (e.destination != nullptr) {
             if (mapVertices.find(e.destination) == mapVertices.end()) {
                 auto v_destination = newDiagram.createVertex(Point2D(e.destination->point.x, e.destination->point.y));
@@ -235,26 +235,26 @@ void modifyStructure(const Diagram<double>& diagram,
     // Iterate again over all the unbounded faces to connect their last halfedge with their first halfedge,
     // this way the halfedges of each region form a circular list
     for (auto& f : newDiagram.getFaces()) {
-        if (f.firstEdge->tail->infinite == true) {
-            auto e = f.firstEdge;
+        if (f->firstEdge->tail->infinite == true) {
+            auto e = f->firstEdge;
             while (e->head->infinite != true) {
                 e = e->next;
             }
-            e->next = f.firstEdge;
+            e->next = f->firstEdge;
         }
     }
 
     // Iterate again over all the halfedges to assign the right triplet to all vertices,
     // it's possible only now because we needed to connect all halfedges to each other
     for (auto& e : newDiagram.getHalfEdges()) {
-        auto v1_new = e.head;
+        auto v1_new = e->head;
         // If the vertex to which the new halfedge points has not a triplet yet,
         // we create it based on the old halfedges that had it as their origin
         if (!v1_new->infinite && v1_new->triplet.empty()) {
-            std::vector<Voronoi::NewDiagram::Site*> temp = std::vector<Voronoi::NewDiagram::Site*>(3);
-            temp[0] = e.label;
-            temp[1] = e.next->twin->label;
-            temp[2] = e.next->twin->next->twin->label;
+            std::vector<Voronoi::NewDiagram::SitePtr> temp = std::vector<Voronoi::NewDiagram::SitePtr>(3);
+            temp[0] = e->label;
+            temp[1] = e->next->twin->label;
+            temp[2] = e->next->twin->next->twin->label;
             v1_new->triplet = temp;
         }
     }
@@ -268,7 +268,7 @@ void modifyStructure(const Diagram<double>& diagram,
      //double total = 4;
 
     //std::string fileName = "Data/Lee_2.txt";
-    //std::string fileName = "Data/Lee_2.txt"; <- WARNING: maybe there's cocircularity
+    //std::string fileName = "Data/Lee_1.txt"; <- WARNING: maybe there's cocircularity
     std::string fileName = "Data/example_3.txt";
     //std::string fileName = "Data/triangle.txt";
     //std::string fileName = "Data/equilatero_norm.txt";
@@ -280,13 +280,13 @@ void modifyStructure(const Diagram<double>& diagram,
     std::vector<std::pair<Point2D, double>> points_with_weights = readPoints(fileName);
     double capacity = readCapacity(fileName);
 
-    std::vector<Vector2<double>> points;
+    std::vector<mygal::Vector2<double>> points;
     for (size_t i = 0; i < points_with_weights.size(); ++i) {
-        points.push_back(Vector2<double>(points_with_weights[i].first.x, points_with_weights[i].first.y));
+        points.push_back(mygal::Vector2<double>(points_with_weights[i].first.x, points_with_weights[i].first.y));
     }
  
     // Initialize an instance of Fortune's algorithm
-    auto algorithm = FortuneAlgorithm<double>(points);
+    auto algorithm = mygal::FortuneAlgorithm<double>(points);
     // Construct the first order Voronoi diagram
     algorithm.construct();
     // Bound the diagram
@@ -324,7 +324,7 @@ void modifyStructure(const Diagram<double>& diagram,
 
 
     //Construct the min-knapsack Voronoi diagram
-    //build_minKnapsack(newDiagram, points_with_weights, capacity);
+    build_minKnapsack(newDiagram, points_with_weights, capacity);
 
 
     // Visualize the diagram
@@ -378,11 +378,17 @@ void modifyStructure(const Diagram<double>& diagram,
 
 
         // Draw all edges
-        auto& edges = newDiagram.getHalfEdges();
-        for (auto& edge : edges) {
-            sf::VertexArray line(sf::Lines, 2);  // Create a line with 2 vertices
-            initEdgePointsVis(edge, line, points_with_weights);  // Initialize the edge points
-            window.draw(line);  // Draw the line
+        auto& faces = newDiagram.getFaces();
+        for (auto& face : faces) {
+            auto& edge = face->firstEdge;
+            do
+            {
+                sf::VertexArray line(sf::Lines, 2);  // Create a line with 2 vertices
+                initEdgePointsVis(edge, line, points_with_weights);  // Initialize the edge points
+                window.draw(line);  // Draw the line
+                edge = edge->next;
+            } while (edge!=face->firstEdge);
+            
         }
 
         window.display();

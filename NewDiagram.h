@@ -11,10 +11,20 @@
 
 namespace Voronoi{
 
+    
+
     class NewDiagram{
     public:
-        struct HalfEdge;
         struct Face;
+        struct HalfEdge;
+        struct Vertex;
+        struct Site;
+
+        // I define the typename for the shared pointers
+        typedef std::shared_ptr<HalfEdge> HalfEdgePtr;
+        typedef std::shared_ptr<Vertex> VertexPtr;
+        typedef std::shared_ptr<Face> FacePtr;
+        typedef std::shared_ptr<Site> SitePtr;
 
         /**
          * \brief Point associated with a face of the partitioning:
@@ -22,9 +32,13 @@ namespace Voronoi{
          */
         struct Site
         {
-            std::size_t index; /**< Index of the site in mSites */
-            Point2D point; /**< Coordinates of the site */
+            const std::size_t index; /**< Index of the site in mSites */
+            const Point2D point; /**< Coordinates of the site */
             const double capacity; /**< Capacity of the site */
+
+            Site(int i, Point2D p, double c)
+                : index(i), point(p), capacity(c) {
+            }
         };
 
         /**
@@ -34,13 +48,16 @@ namespace Voronoi{
         struct Vertex
         {
             Point2D point; /**< Coordinates of the vertex */
-            std::vector<Site*> triplet; /**< Triplet of sites of which the point is a circumcenter */
+            std::vector<SitePtr> triplet; /**< Triplet of sites of which the point is a circumcenter */
             bool infinite = false; /*< If it's true the vertex is at infinity and the point value isn't significant **/
 
-            static Vertex* getNullVertex() {
-                static Vertex null_vertex; // Static instance
-                null_vertex.infinite = true;
-                return &null_vertex;
+            static VertexPtr getNullVertex() {
+                static VertexPtr null_vertex = []() {
+                    auto v = std::make_shared<Vertex>();
+                    v->infinite = true;  // Set infinite once during initialization
+                    return v;
+                    }();
+                return null_vertex;
             }
 
         private:
@@ -55,12 +72,12 @@ namespace Voronoi{
          */
         struct HalfEdge
         {
-            Vertex* tail = nullptr; /**< Origin vertex of the half-edge */
-            Vertex* head = nullptr; /**< Destination vertex of the half-edge */
-            HalfEdge* twin = nullptr; /**< Twin half-edge */
-            Face* region; /**< Face to which this half-edge belongs to */
-            Site* label = nullptr; /**< Site on the right side of the half-edge */
-            HalfEdge* next = nullptr; /**< Next half-edge in the face frontier */
+            VertexPtr tail = nullptr; /**< Origin vertex of the half-edge */
+            VertexPtr head = nullptr; /**< Destination vertex of the half-edge */
+            HalfEdgePtr twin = nullptr; /**< Twin half-edge */
+            FacePtr region; /**< Face to which this half-edge belongs to */
+            SitePtr label = nullptr; /**< Site on the right side of the half-edge */
+            HalfEdgePtr next = nullptr; /**< Next half-edge in the face frontier */
 
         private:
             typename std::list<HalfEdge>::iterator it;
@@ -73,10 +90,10 @@ namespace Voronoi{
          */
         struct Face
         {
-            std::list<Site*> sites; /**< List of sites associated with this face */
-            Site* pivot = nullptr; /**< Pivot site associated with this face: it can be null */
+            std::list<SitePtr> sites; /**< List of sites associated with this face */
+            SitePtr pivot = nullptr; /**< Pivot site associated with this face: it can be null */
             double weight = 0; /**< Sum of the weights of all sites associated with this face */
-            HalfEdge* firstEdge; /**< A half-edge of the face */
+            HalfEdgePtr firstEdge; /**< A half-edge of the face */
             long ID; /**< Identifier of this face; it's unique */
             bool flag; /**< It's false if the face is to be eliminated */
         private:
@@ -88,7 +105,7 @@ namespace Voronoi{
          *
          * \return Const reference to the vector of sites of the diagram
          */
-        const std::vector<Site>& getSites() const
+        const std::vector<SitePtr>& getSites() const
         {
             return mSites;
         }
@@ -100,9 +117,9 @@ namespace Voronoi{
          *
          * \return Const pointer to the requested site
          */
-        const Site* getSite(std::size_t i) const
+        const SitePtr getSite(std::size_t i) const
         {
-            return &mSites[i];
+            return mSites[i];
         }
 
         /**
@@ -114,7 +131,7 @@ namespace Voronoi{
          */
         const double getWeight(std::size_t i) const
         {
-            return mSites[i].capacity;
+            return mSites[i]->capacity;
         }
 
         /**
@@ -143,7 +160,7 @@ namespace Voronoi{
          *
          * \return Const reference to the list of faces of the diagram
          */
-        std::list<Face>& getFaces()
+        std::list<FacePtr>& getFaces()
         {
             return mFaces;
         }
@@ -165,7 +182,7 @@ namespace Voronoi{
          *
          * \return Const reference to the list of vertices of the diagram
          */
-        std::list<Vertex> getVertices()
+        std::list<VertexPtr>& getVertices()
         {
             return mVertices;
         }
@@ -175,7 +192,7 @@ namespace Voronoi{
          *
          * \return Reference to the list of half-edges of the diagram
          */
-         std::list<HalfEdge>& getHalfEdges()
+         std::list<HalfEdgePtr>& getHalfEdges()
         {
             return mHalfEdges;
         }
@@ -183,10 +200,10 @@ namespace Voronoi{
        
 
     private:
-        std::vector<Site> mSites; /**< Sites of the diagram */
-        std::list<Face> mFaces; /**< Faces of the diagram */
-        std::list<Vertex> mVertices; /**< Vertices of the diagram */
-        std::list<HalfEdge> mHalfEdges; /**< Half-edges of the diagram */
+        std::vector<SitePtr> mSites; /**< Sites of the diagram */
+        std::list<FacePtr> mFaces; /**< Faces of the diagram */
+        std::list<VertexPtr> mVertices; /**< Vertices of the diagram */
+        std::list<HalfEdgePtr> mHalfEdges; /**< Half-edges of the diagram */
         double mTotal;
 
         // Diagram construction
@@ -197,14 +214,15 @@ namespace Voronoi{
             mSites.reserve(points.size());
             for (auto i = std::size_t(0); i < points.size(); ++i)
             {
-                mSites.push_back(NewDiagram::Site{ i, points[i].first, points[i].second});
+                mSites.push_back(std::make_shared<NewDiagram::Site>(i, points[i].first, points[i].second));
+                 
             }
             mTotal = total;
         }
 
-        Site* getSite(std::size_t i)
+        SitePtr getSite(std::size_t i)
         {
-            return &mSites[i];
+            return mSites[i];
         }
 
         /*Face* getFace(std::size_t i)
@@ -212,31 +230,31 @@ namespace Voronoi{
             return &mFaces[i];
         }*/
 
-        Vertex* createVertex(Point2D point)
+        VertexPtr createVertex(Point2D point)
         {
-            mVertices.emplace_back();
-            mVertices.back().point = point;
+            mVertices.emplace_back(std::make_shared<Vertex>());
+            mVertices.back()->point = point;
             //mVertices.back().it = std::prev(mVertices.end());
-            return &mVertices.back();
+            return mVertices.back();
         }
 
         
 
-        HalfEdge* createHalfEdge(Site* site)
+        HalfEdgePtr createHalfEdge(SitePtr site)
         {
-            mHalfEdges.emplace_back();
-            mHalfEdges.back().label = site;
+            mHalfEdges.emplace_back(std::make_shared<HalfEdge>());
+            mHalfEdges.back()->label = site;
             //mHalfEdges.back().it = std::prev(mHalfEdges.end());
             // This doesn't work anymore for my code
             /*if (face->firstEdge == nullptr)
                 face->firstEdge = &mHalfEdges.back();*/
-            return &mHalfEdges.back();
+            return mHalfEdges.back();
         }
 
-        Face* createFace(long id) {
-            mFaces.emplace_back();
-            mFaces.back().ID = id;
-            return &mFaces.back();
+        FacePtr createFace(long id) {
+            mFaces.emplace_back(std::make_shared<Face>());
+            mFaces.back()->ID = id;
+            return mFaces.back();
         }
 
         

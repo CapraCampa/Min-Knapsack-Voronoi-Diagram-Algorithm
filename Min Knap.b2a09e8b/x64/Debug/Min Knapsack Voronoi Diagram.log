@@ -44,36 +44,36 @@ C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(75,60): warnin
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(75,60): warning C4244:         [
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(75,60): warning C4244:             T=float
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(75,60): warning C4244:         ]
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,71): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,71): warning C4244:         with
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,71): warning C4244:         [
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,71): warning C4244:             T=float
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,71): warning C4244:         ]
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,54): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,54): warning C4244:         with
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,54): warning C4244:         [
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,54): warning C4244:             T=float
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,54): warning C4244:         ]
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,84): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,84): warning C4244:         with
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,84): warning C4244:         [
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,84): warning C4244:             T=float
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,84): warning C4244:         ]
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,60): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,60): warning C4244:         with
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,60): warning C4244:         [
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,60): warning C4244:             T=float
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,60): warning C4244:         ]
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,71): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,71): warning C4244:         with
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,71): warning C4244:         [
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,71): warning C4244:             T=float
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,71): warning C4244:         ]
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,54): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,54): warning C4244:         with
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,54): warning C4244:         [
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,54): warning C4244:             T=float
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,54): warning C4244:         ]
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,73): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,73): warning C4244:         with
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,73): warning C4244:         [
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,73): warning C4244:             T=float
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,73): warning C4244:         ]
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,55): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,55): warning C4244:         with
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,55): warning C4244:         [
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,55): warning C4244:             T=float
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(86,55): warning C4244:         ]
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,86): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,86): warning C4244:         with
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,86): warning C4244:         [
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,86): warning C4244:             T=float
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,86): warning C4244:         ]
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,61): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,61): warning C4244:         with
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,61): warning C4244:         [
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,61): warning C4244:             T=float
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(87,61): warning C4244:         ]
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,73): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,73): warning C4244:         with
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,73): warning C4244:         [
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,73): warning C4244:             T=float
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,73): warning C4244:         ]
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,55): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,55): warning C4244:         with
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,55): warning C4244:         [
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,55): warning C4244:             T=float
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(91,55): warning C4244:         ]
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(93,79): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(93,79): warning C4244:         with
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(93,79): warning C4244:         [
@@ -84,16 +84,16 @@ C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(93,41): warnin
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(93,41): warning C4244:         [
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(93,41): warning C4244:             T=float
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(93,41): warning C4244:         ]
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,84): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,84): warning C4244:         with
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,84): warning C4244:         [
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,84): warning C4244:             T=float
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,84): warning C4244:         ]
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,60): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,60): warning C4244:         with
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,60): warning C4244:         [
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,60): warning C4244:             T=float
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,60): warning C4244:         ]
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,86): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,86): warning C4244:         with
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,86): warning C4244:         [
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,86): warning C4244:             T=float
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,86): warning C4244:         ]
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,61): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,61): warning C4244:         with
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,61): warning C4244:         [
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,61): warning C4244:             T=float
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(97,61): warning C4244:         ]
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(99,79): warning C4244: 'argomento': conversione da 'double' a 'T'. Possibile perdita di dati.
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(99,79): warning C4244:         with
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(99,79): warning C4244:         [
@@ -130,7 +130,7 @@ C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master
   (compilazione del file di origine 'Main.cpp')
       C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master\MyGAL-master\include\MyGAL\PriorityQueue.h(59,37):
       il contesto di creazione dell'istanza del modello (prima il meno recente) è
-          C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(289,46):
+          C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\Main.cpp(289,53):
           vedere il riferimento all'istanza 'mygal::FortuneAlgorithm<T>' di modello classe di cui è in corso la compilazione
           with
           [
@@ -263,11 +263,31 @@ C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master
               T=double
           ]
   
-  MinKnapsack.cpp
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(286,19): warning C4267: '=': conversione da 'size_t' a 'long'. Possibile perdita di dati.
-  NewDiagram.h
-  Generazione del codice in corso...
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(63,1): error C4716: 'circumcenter': deve restituire un valore
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(143,1): error C4716: 'circumcenterInside': deve restituire un valore
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(68,1): error C4716: 'circumcenter': deve restituire un valore
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\MinKnapsack.cpp(44,1): warning C4172: verrà restituito l'indirizzo del valore : t temporaneo o della variabile locale
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xutility(403,82): warning C4267: 'argomento': conversione da 'size_t' a 'int'. Possibile perdita di dati.
+  (compilazione del file di origine 'Main.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xutility(403,82):
+      il contesto di creazione dell'istanza del modello (prima il meno recente) è
+          C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\NewDiagram.h(217,39):
+          vedere il riferimento all'istanza 'std::shared_ptr<Voronoi::NewDiagram::Site> std::make_shared<Voronoi::NewDiagram::Site,size_t&,const _Ty1&,const _Ty2&>(size_t &,const _Ty1 &,const _Ty2 &)' della funzione modello di cui è in corso la compilazione
+          with
+          [
+              _Ty1=Point2D,
+              _Ty2=double
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\memory(2906,46):
+          vedere il riferimento all'istanza 'std::_Ref_count_obj2<Voronoi::NewDiagram::Site>::_Ref_count_obj2<size_t&,const _Ty1&,const _Ty2&>(size_t &,const _Ty1 &,const _Ty2 &)' della funzione modello di cui è in corso la compilazione
+          with
+          [
+              _Ty1=Point2D,
+              _Ty2=double
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\memory(2095,18):
+          vedere il riferimento all'istanza 'void std::_Construct_in_place<_Ty,size_t&,const _Ty1&,const _Ty2&>(_Ty &,size_t &,const _Ty1 &,const _Ty2 &) noexcept(false)' della funzione modello di cui è in corso la compilazione
+          with
+          [
+              _Ty=Voronoi::NewDiagram::Site,
+              _Ty1=Point2D,
+              _Ty2=double
+          ]
+  
+  Min Knapsack Voronoi Diagram.vcxproj -> C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\x64\Debug\Min Knapsack Voronoi Diagram.exe
