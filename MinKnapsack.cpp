@@ -117,7 +117,7 @@ int circumcenterInside(std::list<Special_vertex*>::iterator r_it,
     std::list<Special_vertex*>::iterator nextNext_it,
     std::list<Special_vertex*>& l, int E, bool open) {
     
-    const auto& v_ptr = std::make_shared<Voronoi::NewDiagram::Vertex>();
+    auto v_ptr = std::make_shared<Voronoi::NewDiagram::Vertex>();
     auto& v = *v_ptr;
     auto next = *next_it;
     auto r = *r_it;
@@ -195,85 +195,80 @@ int circumcenterInside(std::list<Special_vertex*>::iterator r_it,
 
 void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagram::FacePtr>& R) {
     auto& r = *r_ptr;
-    auto e_ptr = std::make_unique<std::list<Voronoi::NewDiagram::HalfEdgePtr>>();
+    auto e_ptr = std::make_unique<std::vector<Voronoi::NewDiagram::HalfEdgePtr>>();
     auto& e = *e_ptr;
-    auto lambda_ptr = std::make_unique<std::list<Voronoi::NewDiagram::SitePtr>>();
+    auto lambda_ptr = std::make_unique<std::vector<Voronoi::NewDiagram::SitePtr>>();
     auto& lambda = *lambda_ptr;
-    auto reg_ptr = std::make_unique<std::list<Voronoi::NewDiagram::FacePtr>>();
+    auto reg_ptr = std::make_unique<std::vector<Voronoi::NewDiagram::FacePtr>>();
     auto& reg = *reg_ptr;
 
     e.push_back(r.firstEdge);
-    lambda.push_back(e.front()->twin->label);
-    reg.push_back(createRegion(R, r_ptr, lambda.front(), e.front()));
+    lambda.push_back(e.at(0)->twin->label);
+    reg.push_back(createRegion(R, r_ptr, lambda.at(0), e.at(0)));
 
-    auto e_iter = e.begin(); // e[1]
-    auto lambda_iter = lambda.begin(); // e[2]
-
-    while ((*e_iter)->next != r.firstEdge && (*e_iter)->next->twin->label == lambda.front()) {
-        *e_iter = (*e_iter)->next;
+    
+    while (e.at(0)->next != r.firstEdge && e.at(0)->next->twin->label == lambda.at(0)) {
+        e.at(0) = e.at(0)->next;
     }
 
-    if ((*e_iter)->next->twin->label != lambda.front()) {
-        lambda.push_back((*e_iter)->next->twin->label);
-        e.push_back((*e_iter)->next);
-        createPendingEdge(*e_iter, e.back());
-        reg.push_back(createRegion(R, r_ptr, lambda.back(), (*e_iter)->next->twin));
+    if (e.at(0)->next->twin->label != lambda.at(0)) {
+        lambda.push_back(e.at(0)->next->twin->label);
+        e.push_back(e.at(0)->next);
+        createPendingEdge(e.at(0), e.at(1));
+        reg.push_back(createRegion(R, r_ptr, lambda.at(1), e.at(0)->next->twin));
 
-        auto e_back_iter = std::prev(e.end()); // e[2]
-        auto lambda_back_iter = std::prev(lambda.end()); // lambda[2]
-
-        while ((*e_back_iter)->next->twin->label == *lambda_back_iter) {
-            *e_back_iter = (*e_back_iter)->next;
+        
+        while (e.at(1)->next->twin->label == lambda.at(1)) {
+            e.at(1) = (e.at(1))->next;
         }
 
-        if ((*e_back_iter)->next->twin->label == lambda.front()) {
-            (*e_iter)->next->head = (*e_back_iter)->head;
-            (*e_iter)->next->twin->tail = (*e_back_iter)->head;
-            (*e_iter)->next->next = (*e_back_iter)->next;
-            (*e_back_iter)->next = (*e_iter)->next->twin;
+        if ((e.at(1))->next->twin->label == lambda.at(0)) {
+            e.at(0)->next->head = e.at(1)->head;
+            e.at(0)->next->twin->tail = e.at(1)->head;
+            e.at(0)->next->next = e.at(1)->next;
+            e.at(1)->next = e.at(0)->next->twin;
         }
         else {
             int k = 1;
-            lambda.push_back((*e_back_iter)->next->twin->label);
-            e.push_back((*e_back_iter)->next);
-            createPendingEdge(*e_back_iter,e.back());
+            lambda.push_back(e.at(1)->next->twin->label);
+            e.push_back(e.at(1)->next);
+            createPendingEdge(e.at(1),e.at(2));
             bool open = false;
 
             do {
-                reg.push_back(createRegion(R, r_ptr, lambda.back(), (*std::prev(e.end()))->next->twin));
+                reg.push_back(createRegion(R, r_ptr, lambda.at(k+1), e.at(k)->next->twin));
                 k++;
-                while ((*std::prev(e.end()))->next->twin->label == *std::prev(lambda.end())) {
-                    *std::prev(e.end()) = (*std::prev(e.end()))->next;
+                while (e.at(k)->next->twin->label == lambda.at(k)) {
+                    e.at(k) = e.at(k)->next;
                 }
-                lambda.push_back((*std::prev(e.end()))->next->twin->label);
-                e.push_back((*std::prev(e.end()))->next);
+                lambda.push_back(e.at(k)->next->twin->label);
+                e.push_back(e.at(k)->next);
 
-                if (!(e.back()->head->infinite)) {
-                    createPendingEdge(*std::prev(std::prev(e.end())), e.back());
+                if (!(e.at(k)->head->infinite)) {
+                    createPendingEdge(e.at(k), e.back());
                 }
                 else {
                     open = true;
                 }
-            } while (*std::prev(lambda.end()) == *std::next(lambda.begin()));
+            } while (lambda.back() != lambda.front());
 
             // Partition in 3 parts
             std::list<Special_vertex*> l{};
             int E = 0;
-            for (auto e_elem = e.begin(); e_elem != e.end(); ++e_elem) {
+            for (int h = 0; h < k; h++) {
                 Special_vertex rv{};
-                rv.eti_minus = *lambda_iter;
-                rv.eti_plus = *std::next(lambda_iter);
-                rv.reg = *std::next(reg.begin());
-                rv.edgein = *e_elem;
+                rv.eti_minus = lambda.at(h);
+                rv.eti_plus = lambda.at(h%(k+1));
+                rv.reg = reg.at(h % (k + 1));
+                rv.edgein = e.at(h);
 
-                if ((*e_elem)->head->infinite) {
-                    rv.edgeout = (*e_elem)->next;
+                if (rv.edgein->head->infinite) {
+                    rv.edgeout = e.at(h)->next;
                 }
                 else {
-                    rv.edgeout = (*e_elem)->next->twin->next;
+                    rv.edgeout = e.at(h)->next->twin->next;
                 }
                 l.push_back(&rv);
-                ++lambda_iter;
                 ++E;
             }
 

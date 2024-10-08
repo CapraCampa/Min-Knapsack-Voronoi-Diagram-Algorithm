@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|solutionrelative:Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\MinKnapsack.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|solutionrelative:MinKnapsack.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Main.cpp",
-              "DocumentMoniker": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Main.cpp",
-              "RelativeDocumentMoniker": "Main.cpp",
-              "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Main.cpp",
-              "RelativeToolTip": "Main.cpp",
-              "ViewState": "AgIAAAUBAAAAAAAAAAASwA8BAAAEAAAAAAAAAA==",
+              "Title": "MinKnapsack.cpp",
+              "DocumentMoniker": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\MinKnapsack.cpp",
+              "RelativeDocumentMoniker": "MinKnapsack.cpp",
+              "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\MinKnapsack.cpp",
+              "RelativeToolTip": "MinKnapsack.cpp",
+              "ViewState": "AgIAABwBAAAAAAAAAAAAACUBAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-10-07T09:47:17.56Z",
+              "WhenOpened": "2024-10-07T10:03:22.287Z",
               "EditorCaption": ""
             }
           ]

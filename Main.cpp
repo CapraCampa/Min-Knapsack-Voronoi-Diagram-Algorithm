@@ -1,16 +1,3 @@
-/**
- * \mainpage
- *
- * \section welcome Welcome
- *
- * Welcome to the official MyGAL documentation. Here you will find a detailed
- * view of all the MyGAL classes.
- *
- * \section example Example
- *
- * Here is a short example, to show you how simple it is to use MyGAL:
- *
- */
 #include <iostream>
 #include <fstream> 
 #include <stdio.h>
@@ -398,6 +385,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
     return 0;
   }
  
+  //old version
   /*Voronoi::NewDiagram* modifyStructure(const Diagram<double>& diagram,
      const std::vector<std::pair<Point2D, double>>* points_with_weights, double total) {
 
