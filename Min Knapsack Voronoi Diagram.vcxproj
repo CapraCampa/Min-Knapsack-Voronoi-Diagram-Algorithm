@@ -135,14 +135,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MinKnapsack.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="NewDiagram.h" />
-    <ClCompile Include="Point2D.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\MinKnapsack.cpp" />
+    <ClCompile Include="src\Point2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MinKnapsack.h" />
-    <ClInclude Include="Point2D.h" />
+    <ClInclude Include="src\MinKnapsack.h" />
+    <ClInclude Include="src\NewDiagram.h" />
+    <ClInclude Include="src\Point2D.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\Downloads\Telegram Desktop\degenerate_1.txt" />
@@ -151,7 +151,6 @@
     <Text Include="..\..\..\Downloads\Telegram Desktop\example_2.txt" />
     <Text Include="..\..\..\Downloads\Telegram Desktop\example_3.txt" />
     <Text Include="..\..\..\Downloads\Telegram Desktop\triangle.txt" />
-    <Text Include="equilatero_norm.txt" />
     <Text Include="Lee_1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
