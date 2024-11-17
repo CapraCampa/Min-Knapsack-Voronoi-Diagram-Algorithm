@@ -158,7 +158,7 @@ namespace Voronoi{
         /**
          * \brief Get faces
          *
-         * \return Const reference to the list of faces of the diagram
+         * \return Reference to the list of faces of the diagram
          */
         std::list<FacePtr>& getFaces()
         {

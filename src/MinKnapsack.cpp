@@ -61,7 +61,7 @@ void createPendingEdge(Voronoi::NewDiagram::HalfEdgePtr e, Voronoi::NewDiagram::
     e->next = a;
 }
 
-//to implement
+
 Point2D circumcenter(Point2D p1, Point2D p2, Point2D p3) {
     Point2D u1 = (p1 - p2).normalized(), u2 = (p3 - p2).normalized();
 
@@ -87,7 +87,7 @@ Point2D circumcenter(Point2D p1, Point2D p2, Point2D p3) {
     return center;
 }
 
-//to implement
+
 Point2D circumcenter(std::vector<Voronoi::NewDiagram::SitePtr> s) {
     return circumcenter(s.at(0)->point, s.at(1)->point, s.at(2)->point);
 }
@@ -276,7 +276,7 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                 auto l_next = std::next(l_iter);
                 Point2D P = circumcenter((*l_iter)->eti_minus->point, (*l_iter)->eti_plus->point, (*l_next)->eti_plus->point);
 
-                if (pointInsideRegion(P, (*l_iter)->edgein->head->point, (*l_next)->edgeout->head->point)) {
+                if (pointInsideRegion(P, (*l_iter)->edgein->head->point, (*l_next)->edgein->head->point)) {
                     if (!(*l_iter)->edgeout->tail->infinite) {
                         (*l_iter)->d_plus = dist(P, (*l_iter)->edgeout->tail->point);
                     }
@@ -337,7 +337,7 @@ void build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point
     while(it != R.end()){
         long last = nR;
         while (it != R.end() && (*it)->ID <= last) {
-            std::cout << "I examine the region: " << (*it)->ID << "with pivot:"<< (*it)->pivot << "\n";
+            std::cout << "I examine the region: " << (*it)->ID << " with pivot: "<< (*it)->pivot << "\n";
             if ((*it)->flag == 1 && (*it)->pivot == nullptr && ((*it)->weight < capacity)) {
                 std::cout << "I divide the region: " << (*it)->ID << "\n";
                 partition(*it, R);
