@@ -233,17 +233,22 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
 
     // Iterate again over all the halfedges to assign the right triplet to all vertices,
     // it's possible only now because we needed to connect all halfedges to each other
-    for (auto& e : newDiagram.getHalfEdges()) {
-        auto v1_new = e->head;
-        // If the vertex to which the new halfedge points has not a triplet yet,
-        // we create it based on the old halfedges that had it as their origin
-        if (!v1_new->infinite && v1_new->triplet.empty()) {
-            std::vector<Voronoi::NewDiagram::SitePtr> temp = std::vector<Voronoi::NewDiagram::SitePtr>(3);
-            temp[0] = e->label;
-            temp[1] = e->next->twin->label;
-            temp[2] = e->next->twin->next->twin->label;
-            v1_new->triplet = temp;
-        }
+    for (auto& f : newDiagram.getFaces()) {
+        auto& e = f->firstEdge;
+        do
+        {
+            auto& v1_new = e->head;
+            // If the vertex to which the new halfedge points has not a triplet yet,
+            // we create it based on the old halfedges that had it as their origin
+            if (!v1_new->infinite && v1_new->triplet.empty()) {
+                std::vector<Voronoi::NewDiagram::SitePtr> temp = std::vector<Voronoi::NewDiagram::SitePtr>(3);
+                temp[0] = e->label;
+                temp[1] = e->next->twin->label;
+                temp[2] = e->next->twin->next->twin->label;
+                v1_new->triplet = temp;
+            }
+            e = e->next;
+        } while (e!=f->firstEdge);
     }
 
 }

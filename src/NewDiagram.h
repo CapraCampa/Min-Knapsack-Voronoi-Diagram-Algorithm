@@ -49,7 +49,9 @@ namespace Voronoi{
         {
             Point2D point; /**< Coordinates of the vertex */
             std::vector<SitePtr> triplet; /**< Triplet of sites of which the point is a circumcenter */
-            bool infinite = false; /*< If it's true the vertex is at infinity and the point value isn't significant **/
+            bool infinite = false; /**< If it's true the vertex is at infinity and the point value isn't significant **/
+
+            //Vertex(Point2D p) : point(p) {};
 
             static VertexPtr getNullVertex() {
                 static VertexPtr null_vertex = []() {
@@ -61,7 +63,7 @@ namespace Voronoi{
             }
 
         private:
-            typename std::list<Vertex>::iterator it;
+            //typename std::list<Vertex>::iterator it;
         };
 
         
@@ -78,6 +80,8 @@ namespace Voronoi{
             FacePtr region; /**< Face to which this half-edge belongs to */
             SitePtr label = nullptr; /**< Site on the right side of the half-edge */
             HalfEdgePtr next = nullptr; /**< Next half-edge in the face frontier */
+
+            //HalfEdge(SitePtr s) : label(s) {};
 
         private:
             typename std::list<HalfEdge>::iterator it;
@@ -181,29 +185,29 @@ namespace Voronoi{
          * \brief Get vertices
          *
          * \return Const reference to the list of vertices of the diagram
-         */
         std::list<VertexPtr>& getVertices()
         {
             return mVertices;
         }
+         */
 
         /**
          * \brief Get half-edges
          *
          * \return Reference to the list of half-edges of the diagram
-         */
          std::list<HalfEdgePtr>& getHalfEdges()
         {
             return mHalfEdges;
         }
+         */
 
        
 
     private:
         std::vector<SitePtr> mSites; /**< Sites of the diagram */
         std::list<FacePtr> mFaces; /**< Faces of the diagram */
-        std::list<VertexPtr> mVertices; /**< Vertices of the diagram */
-        std::list<HalfEdgePtr> mHalfEdges; /**< Half-edges of the diagram */
+        //std::list<VertexPtr> mVertices; /**< Vertices of the diagram */
+        //std::list<HalfEdgePtr> mHalfEdges; /**< Half-edges of the diagram */
         double mTotal;
 
         // Diagram construction
@@ -232,23 +236,30 @@ namespace Voronoi{
 
         VertexPtr createVertex(Point2D point)
         {
-            mVertices.emplace_back(std::make_shared<Vertex>());
+            /*mVertices.emplace_back(std::make_shared<Vertex>());
             mVertices.back()->point = point;
             //mVertices.back().it = std::prev(mVertices.end());
-            return mVertices.back();
+            return mVertices.back();*/
+            auto temp = std::make_shared<Vertex>();
+            temp->point = point;
+            return temp;
         }
 
         
 
         HalfEdgePtr createHalfEdge(SitePtr site)
         {
-            mHalfEdges.emplace_back(std::make_shared<HalfEdge>());
+            /*mHalfEdges.emplace_back(std::make_shared<HalfEdge>());
             mHalfEdges.back()->label = site;
             //mHalfEdges.back().it = std::prev(mHalfEdges.end());
             // This doesn't work anymore for my code
-            /*if (face->firstEdge == nullptr)
-                face->firstEdge = &mHalfEdges.back();*/
-            return mHalfEdges.back();
+            //if (face->firstEdge == nullptr)
+            //    face->firstEdge = &mHalfEdges.back();
+            return mHalfEdges.back(); */
+            auto temp = std::make_shared<HalfEdge>();
+            temp->label = site;
+            return temp;
+
         }
 
         FacePtr createFace(long id) {
