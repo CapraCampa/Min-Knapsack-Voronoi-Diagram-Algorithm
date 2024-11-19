@@ -58,7 +58,7 @@
     <Text Include="..\..\..\Downloads\Telegram Desktop\triangle.txt">
       <Filter>Data</Filter>
     </Text>
-    <Text Include="Lee_1.txt">
+    <Text Include="Data\Lee_2.txt">
       <Filter>Data</Filter>
     </Text>
   </ItemGroup>

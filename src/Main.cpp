@@ -260,13 +260,12 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
      //double total = 4;
 
     //std::string fileName = "Data/Lee_2.txt";
-    //std::string fileName = "Data/Lee_1.txt"; <- WARNING: maybe there's cocircularity
     std::string fileName = "Data/example_3.txt";
-    //std::string fileName = "Data/triangle.txt";
-    //std::string fileName = "Data/equilatero_norm.txt";
-    //std::string fileName = "Data/example_2.txt";
-    //std::string fileName = "Data/example_1.txt";
-    //std::string fileName = "Data/degenerate_1.txt";
+    //std::string fileName = "Data/triangle.txt"; <- Not normalized yet 
+    //std::string fileName = "Data/equilatero_norm.txt"; <- doesnt work somehow
+    //std::string fileName = "Data/example_2.txt"; <- doesnt work somehow
+    //std::string fileName = "Data/example_1.txt"; <- doesnt work somehow
+    //std::string fileName = "Data/degenerate_1.txt"; <- doesnt work somehow
 
     // Read points
     std::vector<std::pair<Point2D, double>> points_with_weights = readPoints(fileName);
@@ -344,48 +343,50 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
     }
 
     
+    sf::VertexArray allEdges(sf::Lines);
+
+    auto& faces = newDiagram.getFaces();
+    for (auto& face : faces) {
+        Voronoi::NewDiagram::HalfEdgePtr edge = face->firstEdge;
+        do {
+            sf::VertexArray line(sf::Lines, 2);
+            initEdgePointsVis(edge, line, points_with_weights);
+            allEdges.append(line[0]);
+            allEdges.append(line[1]);
+            edge = edge->next;
+        } while (edge != face->firstEdge);
+    }
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
-        }
 
-        // Handle window resizing
-        if (event.type == sf::Event::Resized) {
-            // Update the view to match the new window size
-            sf::View view(sf::FloatRect(0, 0, 1, 1));
-            window.setView(view);
+            // Handle window resizing
+            if (event.type == sf::Event::Resized) {
+                view.setSize(1.0f, -1.0f * static_cast<float>(event.size.height) / event.size.width);
+                window.setView(view);
+            }
         }
 
         // Clear window with white background
-        window.clear(sf::Color::White); 
+        window.clear(sf::Color::White);
+
         // Draw the grid
         drawGrid(window, 50);
 
-        // Draw all given points
+        // Draw all points
         for (const auto& shape : shapes) {
             window.draw(shape);
         }
 
+        // Draw all edges from the stored sf::VertexArray
+        window.draw(allEdges);
 
-        // Draw all edges
-        auto& faces = newDiagram.getFaces();
-        for (auto& face : faces) {
-            auto& edge = face->firstEdge;
-            do
-            {
-                sf::VertexArray line(sf::Lines, 2);  // Create a line with 2 vertices
-                initEdgePointsVis(edge, line, points_with_weights);  // Initialize the edge points
-                window.draw(line);  // Draw the line
-                edge = edge->next;
-            } while (edge!=face->firstEdge);
-            
-        }
-
+        // Display the window's current frame
         window.display();
     }
-
         
     return 0;
   }

@@ -10,7 +10,6 @@
 #include "Point2D.h"
 
 namespace Voronoi{
-
     
 
     class NewDiagram{
@@ -97,9 +96,9 @@ namespace Voronoi{
             std::list<SitePtr> sites; /**< List of sites associated with this face */
             SitePtr pivot = nullptr; /**< Pivot site associated with this face: it can be null */
             double weight = 0; /**< Sum of the weights of all sites associated with this face */
-            HalfEdgePtr firstEdge; /**< A half-edge of the face */
+            HalfEdgePtr firstEdge = nullptr; /**< A half-edge of the face */
             long ID; /**< Identifier of this face; it's unique */
-            bool flag; /**< It's false if the face is to be eliminated */
+            bool flag = true; /**< It's false if the face is to be eliminated */
         private:
             typename std::list<Face>::iterator it;
         };
@@ -169,17 +168,6 @@ namespace Voronoi{
             return mFaces;
         }
 
-        /**
-         * \brief Get a face
-         *
-         * \param i Index of the site associated with the requested face
-         *
-         * \return Const pointer to the requested face
-         
-        const Face* getFace(std::size_t i) const
-        {
-            return &mFaces[i];
-        }*/
 
         /**
          * \brief Get vertices
@@ -208,20 +196,19 @@ namespace Voronoi{
         std::list<FacePtr> mFaces; /**< Faces of the diagram */
         //std::list<VertexPtr> mVertices; /**< Vertices of the diagram */
         //std::list<HalfEdgePtr> mHalfEdges; /**< Half-edges of the diagram */
-        double mTotal;
+        const double mTotal;
 
         // Diagram construction
         //!!! Qui prima era private
     public:
         NewDiagram(const std::vector<std::pair<Point2D,double>>& points, double total)
-        {
+            : mTotal(total) {
             mSites.reserve(points.size());
             for (auto i = std::size_t(0); i < points.size(); ++i)
             {
                 mSites.push_back(std::make_shared<NewDiagram::Site>(i, points[i].first, points[i].second));
                  
             }
-            mTotal = total;
         }
 
         SitePtr getSite(std::size_t i)

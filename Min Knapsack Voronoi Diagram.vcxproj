@@ -151,7 +151,7 @@
     <Text Include="..\..\..\Downloads\Telegram Desktop\example_2.txt" />
     <Text Include="..\..\..\Downloads\Telegram Desktop\example_3.txt" />
     <Text Include="..\..\..\Downloads\Telegram Desktop\triangle.txt" />
-    <Text Include="Lee_1.txt" />
+    <Text Include="Data\Lee_2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
