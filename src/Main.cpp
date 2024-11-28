@@ -261,6 +261,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
   {
       //double total = 4;
       //std::string fileName = "Data/Lee_2.txt"; // OK
+      //std::string fileName = "Data/Lee_1.txt"; // OK data are rounded
       std::string fileName = "Data/example_3.txt"; // OK
       //std::string fileName = "Data/triangle.txt"; // OK
       //std::string fileName = "Data/equilatero_norm.txt"; // OK
@@ -318,7 +319,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
 
 
     //Construct the min-knapsack Voronoi diagram
-    build_minKnapsack(newDiagram, points_with_weights, capacity);
+    //build_minKnapsack(newDiagram, points_with_weights, capacity);
 
 
     // Visualize the diagram
