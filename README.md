@@ -7,3 +7,5 @@ For a more detailed definition of the structure read the article written by prof
 This project uses the following libraries: 
 - **MyGal** library by pvigier to compute the Voronoi diagram of first order (https://github.com/pvigier/MyGAL)
 - **SFML** library to visualize the diagram (https://www.sfml-dev.org/index.php)
+
+© 2024. This work is openly licensed via CC BY-NC

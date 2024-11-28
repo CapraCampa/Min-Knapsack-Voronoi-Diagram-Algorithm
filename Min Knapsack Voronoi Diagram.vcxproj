@@ -145,13 +145,17 @@
     <ClInclude Include="src\Point2D.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\Downloads\Telegram Desktop\degenerate_1.txt" />
-    <Text Include="..\..\..\Downloads\Telegram Desktop\equilatero.txt" />
-    <Text Include="..\..\..\Downloads\Telegram Desktop\example_1.txt" />
-    <Text Include="..\..\..\Downloads\Telegram Desktop\example_2.txt" />
-    <Text Include="..\..\..\Downloads\Telegram Desktop\example_3.txt" />
-    <Text Include="..\..\..\Downloads\Telegram Desktop\triangle.txt" />
+    <Text Include="Data\degenerate_1.txt" />
+    <Text Include="Data\equilatero.txt" />
+    <Text Include="Data\equilatero_norm.txt" />
+    <Text Include="Data\example_1.txt" />
+    <Text Include="Data\example_2.txt" />
+    <Text Include="Data\example_3.txt" />
+    <Text Include="Data\hardest one.txt" />
+    <Text Include="Data\Lee_1.txt" />
     <Text Include="Data\Lee_2.txt" />
+    <Text Include="Data\Lee_fig2.txt" />
+    <Text Include="Data\triangle.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

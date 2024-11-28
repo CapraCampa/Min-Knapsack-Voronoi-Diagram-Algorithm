@@ -5,6 +5,8 @@
 //#include "NewDiagram.h"
 #include "MinKnapsack.h"
 #include <SFML/Graphics.hpp>
+#include <filesystem>
+
 
 
 namespace vor = Voronoi;
@@ -257,15 +259,15 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
 
   int main()
   {
-     //double total = 4;
-
-    //std::string fileName = "Data/Lee_2.txt";
-    std::string fileName = "Data/example_3.txt";
-    //std::string fileName = "Data/triangle.txt"; <- Not normalized yet 
-    //std::string fileName = "Data/equilatero_norm.txt"; <- doesnt work somehow
-    //std::string fileName = "Data/example_2.txt"; <- doesnt work somehow
-    //std::string fileName = "Data/example_1.txt"; <- doesnt work somehow
-    //std::string fileName = "Data/degenerate_1.txt"; <- doesnt work somehow
+      //double total = 4;
+      //std::string fileName = "Data/Lee_2.txt"; // OK
+      std::string fileName = "Data/example_3.txt"; // OK
+      //std::string fileName = "Data/triangle.txt"; // OK
+      //std::string fileName = "Data/equilatero_norm.txt"; // OK
+      //std::string fileName = "Data/example_2.txt"; // the total weight is 30
+      //std::string fileName = "Data/example_1.txt"; // the total weight is 20
+      //std::string fileName = "Data/degenerate_1.txt"; // <- doesnt work somehow
+      //std::string fileName = "Data/hardest one.txt";
 
     // Read points
     std::vector<std::pair<Point2D, double>> points_with_weights = readPoints(fileName);
@@ -274,6 +276,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
     std::vector<mygal::Vector2<double>> points;
     for (size_t i = 0; i < points_with_weights.size(); ++i) {
         points.push_back(mygal::Vector2<double>(points_with_weights[i].first.x, points_with_weights[i].first.y));
+        std::cout << points.at(i).x << "\n";
     }
  
     // Initialize an instance of Fortune's algorithm

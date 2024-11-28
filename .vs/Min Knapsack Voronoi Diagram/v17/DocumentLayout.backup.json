@@ -7,22 +7,8 @@
       "RelativeMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|solutionrelative:src\\Main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_3.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_2.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\triangle.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_1.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\equilatero.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\Downloads\\Telegram Desktop\\degenerate_1.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Data\\hardest one.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{B2A09E8B-3C56-46B9-8B71-193F1534A0E5}|Min Knapsack Voronoi Diagram.vcxproj|solutionrelative:Data\\hardest one.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -32,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "hardest one.txt",
+              "DocumentMoniker": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Data\\hardest one.txt",
+              "RelativeDocumentMoniker": "Data\\hardest one.txt",
+              "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\Data\\hardest one.txt",
+              "RelativeToolTip": "Data\\hardest one.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2024-11-28T17:57:33.959Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -42,82 +41,10 @@
               "RelativeDocumentMoniker": "src\\Main.cpp",
               "ToolTip": "C:\\Users\\desta\\source\\repos\\Min Knapsack Voronoi Diagram\\src\\Main.cpp",
               "RelativeToolTip": "src\\Main.cpp",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAwAABAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAABAAAAAAAAAADwvw0BAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-19T23:14:38.617Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "example_3.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_3.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\example_3.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_3.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\example_3.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-11-19T23:17:01.933Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "example_2.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_2.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\example_2.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_2.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\example_2.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-11-19T23:14:22.863Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "triangle.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\triangle.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\triangle.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\triangle.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\triangle.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-11-19T23:14:26.799Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "example_1.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_1.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\example_1.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\example_1.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\example_1.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-11-19T23:14:22.239Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "equilatero.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\equilatero.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\equilatero.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\equilatero.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\equilatero.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-11-19T23:14:21.624Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "degenerate_1.txt",
-              "DocumentMoniker": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\degenerate_1.txt",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\Telegram Desktop\\degenerate_1.txt",
-              "ToolTip": "C:\\Users\\desta\\Downloads\\Telegram Desktop\\degenerate_1.txt",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\Telegram Desktop\\degenerate_1.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2024-11-19T23:14:20.911Z"
             }
           ]
         }
