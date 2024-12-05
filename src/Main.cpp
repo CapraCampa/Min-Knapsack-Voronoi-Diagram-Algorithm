@@ -127,7 +127,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
             mapHalfedges[e.twin] = e_twin;
         }
 
-        auto e_new = mapHalfedges.at(e.twin->twin);
+        auto& e_new = mapHalfedges.at(e.twin->twin);
         e_new->twin = mapHalfedges.at(e.twin); 
         e_new->twin->twin = mapHalfedges.at(e.twin->twin);
 
@@ -260,15 +260,20 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
   int main()
   {
       //double total = 4;
-      //std::string fileName = "Data/Lee_2.txt"; // OK
-      //std::string fileName = "Data/Lee_1.txt"; // OK data are rounded
-      std::string fileName = "Data/example_3.txt"; // OK
-      //std::string fileName = "Data/triangle.txt"; // OK
+      
+      // work
+      //std::string fileName = "Data/example_3.txt"; // OK
       //std::string fileName = "Data/equilatero_norm.txt"; // OK
+      
+      // don't work
+      //std::string fileName = "Data/Lee_2.txt"; // OK
+      //std::string fileName = "Data/Lee_1.txt"; // OK, doesn't divide any region!!
+      std::string fileName = "Data/triangle.txt"; // OK, not a triangle
+      //std::string fileName = "Data/hardest one.txt";
       //std::string fileName = "Data/example_2.txt"; // the total weight is 30
       //std::string fileName = "Data/example_1.txt"; // the total weight is 20
-      //std::string fileName = "Data/degenerate_1.txt"; // <- doesnt work somehow
-      //std::string fileName = "Data/hardest one.txt";
+      //std::string fileName = "Data/degenerate_1.txt"; // OK
+      
 
     // Read points
     std::vector<std::pair<Point2D, double>> points_with_weights = readPoints(fileName);
@@ -277,7 +282,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
     std::vector<mygal::Vector2<double>> points;
     for (size_t i = 0; i < points_with_weights.size(); ++i) {
         points.push_back(mygal::Vector2<double>(points_with_weights[i].first.x, points_with_weights[i].first.y));
-        std::cout << points.at(i).x << "\n";
+        // std::cout << points.at(i).x << "\n";
     }
  
     // Initialize an instance of Fortune's algorithm
@@ -291,31 +296,53 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
     // Compute the intersection between the diagram and a box
     //diagram.intersect(Box<double>{0.0, 0.0, 1.0, 1.0});
 
+    auto& hs = diagram.getHalfEdges();
+    for (const auto& he : hs) {
+            std::cout << "Head: ";
+            if (he.destination == nullptr) {
+                std::cout << "infinite vertex\n";
+            }
+            else {
+                std::cout << he.destination->point.x << " " << he.destination->point.y << "\n";
+            }
+            std::cout << "Tail: ";
+            if (he.origin == nullptr) {
+                std::cout << "infinite vertex\n";
+            }
+            else {
+                std::cout << he.origin->point.x << " " << he.origin->point.y << "\n";
+            }
+    }
+
      
     //Create the diagram with the sites and weights
     auto newDiagram = Voronoi::NewDiagram(points_with_weights, capacity);
+    std::cout << "CHANGED STRUCTURE\n";
 
     // Modify the diagram in order to get the structure I used in the pseudocode
+    // DEBUG: a lot of edges get lost in the translation :(
     modifyStructure(diagram, newDiagram);
 
-    /*auto& he = newDiagram.getHalfEdges();
-    for (const auto& x : he) {
-        std::cout << "Head: ";
-        if (x.head->infinite != true) {
-            std::cout << x.head->point.x << " " << x.head->point.y << "\n";
-        }
-        else {
-            std::cout << "infinite vertex\n";
-        }
-        std::cout << "Tail: ";
-        if (x.tail->infinite != true) {
-            std::cout << x.tail->point.x << " " << x.tail->point.y << "\n";
-        }
-        else {
-            std::cout << "infinite vertex\n";
-        }
-    }*/
-
+    auto& fs = newDiagram.getFaces();
+    for (const auto& face : fs) {
+        Voronoi::NewDiagram::HalfEdgePtr x = face->firstEdge;
+        do {
+            std::cout << "Head: ";
+            if (x->head->infinite != true) {
+                std::cout << x->head->point.x << " " << x->head->point.y << "\n";
+            }
+            else {
+                std::cout << "infinite vertex\n";
+            }
+            std::cout << "Tail: ";
+            if (x->tail->infinite != true) {
+                std::cout << x->tail->point.x << " " << x->tail->point.y << "\n";
+            }
+            else {
+                std::cout << "infinite vertex\n";
+            }
+        } while (x != face->firstEdge);
+    }
 
 
     //Construct the min-knapsack Voronoi diagram

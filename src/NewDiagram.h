@@ -93,7 +93,7 @@ namespace Voronoi{
          */
         struct Face
         {
-            std::list<SitePtr> sites; /**< List of sites associated with this face */
+            std::vector<SitePtr> sites; /**< Vector of sites associated with this face */
             SitePtr pivot = nullptr; /**< Pivot site associated with this face: it can be null */
             double weight = 0; /**< Sum of the weights of all sites associated with this face */
             HalfEdgePtr firstEdge = nullptr; /**< A half-edge of the face */

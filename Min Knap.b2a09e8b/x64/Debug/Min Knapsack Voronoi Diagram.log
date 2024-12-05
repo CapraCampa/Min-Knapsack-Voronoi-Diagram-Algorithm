@@ -124,13 +124,13 @@ C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(96,41): wa
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(96,41): warning C4244:         [
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(96,41): warning C4244:             T=float
 C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(96,41): warning C4244:         ]
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(345,53): warning C4244: 'argomento': conversione da 'const double' a 'float'. Possibile perdita di dati.
-C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(345,38): warning C4244: 'argomento': conversione da 'const double' a 'float'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(372,53): warning C4244: 'argomento': conversione da 'const double' a 'float'. Possibile perdita di dati.
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(372,38): warning C4244: 'argomento': conversione da 'const double' a 'float'. Possibile perdita di dati.
 C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master\MyGAL-master\include\MyGAL\PriorityQueue.h(59,37): warning C4267: '=': conversione da 'size_t' a 'int'. Possibile perdita di dati.
   (compilazione del file di origine 'src/Main.cpp')
       C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master\MyGAL-master\include\MyGAL\PriorityQueue.h(59,37):
       il contesto di creazione dell'istanza del modello (prima il meno recente) è
-          C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(284,53):
+          C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(289,53):
           vedere il riferimento all'istanza 'mygal::FortuneAlgorithm<T>' di modello classe di cui è in corso la compilazione
           with
           [
@@ -154,7 +154,7 @@ C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master
           [
               T=double
           ]
-              C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(286,24):
+              C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(291,24):
               vedere il primo riferimento a 'mygal::FortuneAlgorithm<T>::construct' in 'main'
           with
           [
@@ -183,7 +183,7 @@ C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master
           [
               T=double
           ]
-              C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(286,24):
+              C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(291,24):
               vedere il primo riferimento a 'mygal::FortuneAlgorithm<T>::construct' in 'main'
           with
           [
@@ -215,7 +215,7 @@ C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master
           [
               T=double
           ]
-              C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(286,24):
+              C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(291,24):
               vedere il primo riferimento a 'mygal::FortuneAlgorithm<T>::construct' in 'main'
           with
           [
@@ -256,7 +256,7 @@ C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master
           [
               T=double
           ]
-              C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(286,24):
+              C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\Main.cpp(291,24):
               vedere il primo riferimento a 'mygal::FortuneAlgorithm<T>::construct' in 'main'
           with
           [

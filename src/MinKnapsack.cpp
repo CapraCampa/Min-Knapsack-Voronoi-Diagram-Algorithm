@@ -112,16 +112,16 @@ void chooseDirection(Special_vertex* r) {
     }
 }
 
-int circumcenterInside(std::list<Special_vertex*>::iterator r_it,
-    std::list<Special_vertex*>::iterator next_it,
-    std::list<Special_vertex*>::iterator nextNext_it,
-    std::list<Special_vertex*>& l, int E, bool open) {
+int circumcenterInside(std::list<Special_vertex*>::iterator& r_it,
+    std::list<Special_vertex*>& L, int E, bool open) {
     
     auto v_ptr = std::make_shared<Voronoi::NewDiagram::Vertex>();
     auto& v = *v_ptr;
-    auto next = *next_it;
+    auto nextNext_it = std::next(r_it);
+    auto next = *nextNext_it;
     auto r = *r_it;
-    auto nextNext = *nextNext_it;
+    auto next_it = std::next(r_it, 2);
+    auto nextNext = *next_it;
     v.triplet = std::vector{ next->eti_minus, next->eti_plus, nextNext->eti_plus };
     v.point = circumcenter(v.triplet);
     next->edgein->next->head = v_ptr;
@@ -138,14 +138,18 @@ int circumcenterInside(std::list<Special_vertex*>::iterator r_it,
             createPendingEdge(next->edgein->next, nextNext->edgein->next->twin);
             r->edgein->next = next->edgein->next->next->twin;
             next->edgein->next->next->next = r->edgeout;
-            r->edgein->next->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
-            r->edgein->next->twin->head = Voronoi::NewDiagram::Vertex::getNullVertex();
+            //r->edgein->next->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
+            r->edgein->next->tail->infinite = true;
+            //r->edgein->next->twin->head = Voronoi::NewDiagram::Vertex::getNullVertex();
+            r->edgein->next->twin->head->infinite = true;
         }
         // Connect the three remaining pending edges
         next->edgein->next->next = r->edgein->next->twin;
         nextNext->edgein->next->next = next->edgein->next->twin;
         r->edgein->next->next = nextNext->edgein->next->twin;
-        //l.clear() ???????
+        L.erase(r_it);
+        L.erase(next_it);
+        L.erase(nextNext_it);
         E = 0;
     }
     else {
@@ -159,14 +163,13 @@ int circumcenterInside(std::list<Special_vertex*>::iterator r_it,
         p.eti_plus = p.edgeout->label;
 
         // Remove the records next and nextNext from l and insert p in their place
-        auto aux = std::next(nextNext_it);
-        l.erase(next_it);
-        l.erase(nextNext_it);
-
-        auto p_it = l.insert(std::next(r_it), &p);
+        L.erase(next_it);
+        L.erase(nextNext_it);
+        auto p_it = L.insert(std::next(r_it), &p);
 
         E--;
 
+        // Update distances and directions
         Point2D P = circumcenter(r->eti_minus->point, p.eti_minus->point, p.eti_plus->point);
         if (pointInsideRegion(P, r->edgein->head->point, p.edgeout->head->point)) {
             r->d_plus = dist(P, r->edgeout->tail->point);
@@ -216,7 +219,6 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
         e.push_back(e.at(0)->next);
         createPendingEdge(e.at(0), e.at(1));
         reg.push_back(createRegion(R, r_ptr, lambda.at(1), e.at(0)->next->twin));
-
         
         while (e.at(1)->next->twin->label == lambda.at(1)) {
             e.at(1) = (e.at(1))->next;
@@ -253,9 +255,10 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
             } while (lambda.back() != lambda.front());
 
             // Partition in 3 parts
-            std::list<Special_vertex*> l{};
+            std::list<Special_vertex*> L{};
             int E = 0;
             for (int h = 0; h < k; h++) {
+                ++E;
                 Special_vertex rv{};
                 rv.eti_minus = lambda.at(h);
                 rv.eti_plus = lambda.at(h%(k+1));
@@ -268,11 +271,17 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                 else {
                     rv.edgeout = e.at(h)->next->twin->next;
                 }
-                l.push_back(&rv);
-                ++E;
+                L.push_back(&rv);
             }
+            // to make the list circular
+            auto temp = L.end();
+            temp--;
+            temp._Ptr->_Next = L.begin()._Ptr; // Next Node of the last elemen is now first elemen of the List
+            L.begin()._Ptr->_Prev = temp._Ptr; // Prev Node of the first element is now Last node
 
-            for (auto l_iter = l.begin(); l_iter != l.end(); ++l_iter) {
+
+            auto l_iter = L.begin();
+            do{
                 auto l_next = std::next(l_iter);
                 Point2D P = circumcenter((*l_iter)->eti_minus->point, (*l_iter)->eti_plus->point, (*l_next)->eti_plus->point);
 
@@ -292,35 +301,46 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                         (*l_next)->d_minus = -dist(P, (*l_next)->edgeout->tail->point);
                     }
                 }
-            }
+                ++l_iter;
+            } while (l_iter==L.begin());
 
-            for (auto l_iter = l.begin(); l_iter != l.end(); ++l_iter) {
+            do{
                 chooseDirection(*l_iter);
-            }
+                ++l_iter;
+            } while (l_iter == L.begin());
 
             // Partition in 3 parts (second part)
-            auto l_last_iter = std::prev(l.end());
+            auto l_last_iter = std::prev(L.end());
             do {
-                while ((((std::distance(l.begin(), l_last_iter) + 2) % l.size()) != 0) &&
+                while ((((std::distance(L.begin(), l_last_iter) + 2) % L.size()) != 0) &&
                     ((*std::next(l_last_iter))->direz != MINUS || (*std::next(l_last_iter, 2))->direz != PLUS || (*std::next(l_last_iter))->d_plus < 0)) {
-                    --l_last_iter;
+                    ++l_last_iter;
                 }
-
+                // Check if there exists a circumcenter inside
                 if ((*std::next(l_last_iter))->direz != MINUS &&
                     (*std::next(l_last_iter, 2))->direz != PLUS &&
                     (*std::next(l_last_iter))->d_plus >= 0 &&
                     !((*std::next(l_last_iter))->edgein->head->infinite)) {
 
-                    E = circumcenterInside(l_last_iter, std::next(l_last_iter), std::next(l_last_iter, 2), l, E, open);
-                }
-                else {
-                    for (auto l_iter = l.begin(); l_iter != std::prev(l.end(), 2); ++l_iter) {
-                         (*std::next(l_iter))->edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
-                         (*l_iter)->edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
+                    E = circumcenterInside(l_last_iter, L, E, open);
+                } else {
+                    l_iter = L.begin();
+                    do{
+                         //(*std::next(l_iter))->edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
+                        (*std::next(l_iter))->edgein->next->twin->tail->infinite = true;
+                         //(*l_iter)->edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
+                        (*l_iter)->edgein->next->twin->tail->infinite = true;
                          (*std::next(l_iter))->edgein->next->next = (*l_iter)->edgein->next->twin;
                          (*l_iter)->reg->firstEdge = (*l_iter)->edgein->next->twin;
-                    }
-                    l.clear();
+                         ++l_iter;
+                    } while (std::next(l_iter,2) != L.begin());
+                    (*l_iter)->edgein->next->twin->tail->infinite = true;
+                    (*std::next(l_iter))->edgein->next = (*l_iter)->edgein->next->twin;
+                    (*l_iter)->reg->firstEdge = (*l_iter)->edgein->next->twin;
+                    l_iter = std::next(l_iter); //?
+                    (*std::next(l_iter))->edgein->next->head->infinite = true;
+                    (*std::next(l_iter))->edgein->next->next = (*l_iter)->edgeout;
+                    L.clear();
                     E = 0;
                 }
             } while (E != 0);
@@ -334,28 +354,37 @@ void build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point
     total = capacity;
     nR = R.size() - 1;
     auto it = R.begin();
+    // I keep examining regions until I arrive to the end of the list
+    // If I comment the while I test a single iteration!
     while(it != R.end()){
         long last = nR;
+        // I partition all the new regions and add new ones to the end of the list
         while (it != R.end() && (*it)->ID <= last) {
             std::cout << "I examine the region: " << (*it)->ID << " with pivot: "<< (*it)->pivot << "\n";
+            //std::cout << "Point: " << ((*it)->sites).at(0)->point.x << " " << ((*it)->sites).at(0)->point.y << "\n";
             if ((*it)->flag == 1 && (*it)->pivot == nullptr && ((*it)->weight < capacity)) {
                 std::cout << "I divide the region: " << (*it)->ID << "\n";
                 partition(*it, R);
                 (*it)->flag = 0;
+                it = R.erase(it);
             }
-            ++it;
+            else {
+                ++it;
+            }
         }
-        //std::list<Voronoi::NewDiagram::Face>::iterator firstNewRegion = it;
+        auto& firstNewRegion = it;
 
 
-
-        // Delete the element based on a condition
-        /*if ((*it)->flag == 0) { // Example condition: delete even numbers
-            it = R.erase(it); // erase returns the next iterator
+        it = firstNewRegion;
+        // Delete regions that have been fused together
+        while (it != R.end()) {
+            if ((*it)->flag == 0) { 
+                it = R.erase(it); 
+            }
+            else {
+                ++it; 
+            }
         }
-        else {
-            ++it; // only increment if no deletion
-        }*/
-        
+        it = firstNewRegion;
     }
 }
