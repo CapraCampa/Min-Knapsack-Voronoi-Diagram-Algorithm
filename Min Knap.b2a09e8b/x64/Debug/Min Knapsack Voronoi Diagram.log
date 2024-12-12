@@ -263,25 +263,25 @@ C:\Users\desta\OneDrive - Università degli Studi di Milano\Desktop\MyGAL-master
               T=double
           ]
   
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xutility(403,82): warning C4267: 'argomento': conversione da 'size_t' a 'int'. Possibile perdita di dati.
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(406,82): warning C4267: 'argomento': conversione da 'size_t' a 'int'. Possibile perdita di dati.
   (compilazione del file di origine 'src/Main.cpp')
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\xutility(403,82):
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(406,82):
       il contesto di creazione dell'istanza del modello (prima il meno recente) è
-          C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\NewDiagram.h(209,39):
+          C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\NewDiagram.h(221,39):
           vedere il riferimento all'istanza 'std::shared_ptr<Voronoi::NewDiagram::Site> std::make_shared<Voronoi::NewDiagram::Site,size_t&,const _Ty1&,const _Ty2&>(size_t &,const _Ty1 &,const _Ty2 &)' della funzione modello di cui è in corso la compilazione
           with
           [
               _Ty1=Point2D,
               _Ty2=double
           ]
-          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\memory(2906,46):
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(2906,46):
           vedere il riferimento all'istanza 'std::_Ref_count_obj2<Voronoi::NewDiagram::Site>::_Ref_count_obj2<size_t&,const _Ty1&,const _Ty2&>(size_t &,const _Ty1 &,const _Ty2 &)' della funzione modello di cui è in corso la compilazione
           with
           [
               _Ty1=Point2D,
               _Ty2=double
           ]
-          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include\memory(2095,18):
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(2095,18):
           vedere il riferimento all'istanza 'void std::_Construct_in_place<_Ty,size_t&,const _Ty1&,const _Ty2&>(_Ty &,size_t &,const _Ty1 &,const _Ty2 &) noexcept(false)' della funzione modello di cui è in corso la compilazione
           with
           [
@@ -290,4 +290,34 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.3412
               _Ty2=double
           ]
   
+  MinKnapsack.cpp
+C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\MinKnapsack.cpp(356,19): warning C4267: '=': conversione da 'size_t' a 'long'. Possibile perdita di dati.
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(406,82): warning C4267: 'argomento': conversione da 'size_t' a 'int'. Possibile perdita di dati.
+  (compilazione del file di origine 'src/MinKnapsack.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xutility(406,82):
+      il contesto di creazione dell'istanza del modello (prima il meno recente) è
+          C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\src\NewDiagram.h(221,39):
+          vedere il riferimento all'istanza 'std::shared_ptr<Voronoi::NewDiagram::Site> std::make_shared<Voronoi::NewDiagram::Site,size_t&,const _Ty1&,const _Ty2&>(size_t &,const _Ty1 &,const _Ty2 &)' della funzione modello di cui è in corso la compilazione
+          with
+          [
+              _Ty1=Point2D,
+              _Ty2=double
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(2906,46):
+          vedere il riferimento all'istanza 'std::_Ref_count_obj2<Voronoi::NewDiagram::Site>::_Ref_count_obj2<size_t&,const _Ty1&,const _Ty2&>(size_t &,const _Ty1 &,const _Ty2 &)' della funzione modello di cui è in corso la compilazione
+          with
+          [
+              _Ty1=Point2D,
+              _Ty2=double
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(2095,18):
+          vedere il riferimento all'istanza 'void std::_Construct_in_place<_Ty,size_t&,const _Ty1&,const _Ty2&>(_Ty &,size_t &,const _Ty1 &,const _Ty2 &) noexcept(false)' della funzione modello di cui è in corso la compilazione
+          with
+          [
+              _Ty=Voronoi::NewDiagram::Site,
+              _Ty1=Point2D,
+              _Ty2=double
+          ]
+  
+  Generazione del codice in corso...
   Min Knapsack Voronoi Diagram.vcxproj -> C:\Users\desta\source\repos\Min Knapsack Voronoi Diagram\x64\Debug\Min Knapsack Voronoi Diagram.exe

@@ -99,6 +99,18 @@ namespace Voronoi{
             HalfEdgePtr firstEdge = nullptr; /**< A half-edge of the face */
             long ID; /**< Identifier of this face; it's unique */
             bool flag = true; /**< It's false if the face is to be eliminated */
+
+            friend std::ostream& operator<<(std::ostream& os, const Face& f) {
+                os << "Region with ID: " << f.ID << ", weight: " << f.weight;
+                if (f.pivot != nullptr) {
+                    os << ", pivot: " << f.pivot->index << "\n";
+                }
+                else {
+                    os << ", pivot: null \n";
+                }
+                return os;
+            } 
+
         private:
             typename std::list<Face>::iterator it;
         };
@@ -266,6 +278,8 @@ namespace Voronoi{
             mHalfEdges.erase(halfEdge->it);
         }*/
     };
+
+    
 
 }
 

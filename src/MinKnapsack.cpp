@@ -1,3 +1,4 @@
+#pragma once
 
 #include "MinKnapsack.h"
 #include <stdio.h>
@@ -360,8 +361,9 @@ void build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point
         long last = nR;
         // I partition all the new regions and add new ones to the end of the list
         while (it != R.end() && (*it)->ID <= last) {
-            std::cout << "I examine the region: " << (*it)->ID << " with pivot: "<< (*it)->pivot << "\n";
-            //std::cout << "Point: " << ((*it)->sites).at(0)->point.x << " " << ((*it)->sites).at(0)->point.y << "\n";
+            std::cout << "I examine: " << *(*it);
+            //std::cout << "I examine the region: " << (*it)->ID << " with pivot: "<< (*it)->pivot << "\n";
+            //std::cout << "Point: " << ((*it)->sites).at(0)->point << "\n";
             if ((*it)->flag == 1 && (*it)->pivot == nullptr && ((*it)->weight < capacity)) {
                 std::cout << "I divide the region: " << (*it)->ID << "\n";
                 partition(*it, R);

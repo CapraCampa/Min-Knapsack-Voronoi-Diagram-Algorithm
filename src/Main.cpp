@@ -262,13 +262,13 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
       //double total = 4;
       
       // work
-      //std::string fileName = "Data/example_3.txt"; // OK
+      std::string fileName = "Data/example_3.txt"; // OK
       //std::string fileName = "Data/equilatero_norm.txt"; // OK
       
       // don't work
       //std::string fileName = "Data/Lee_2.txt"; // OK
       //std::string fileName = "Data/Lee_1.txt"; // OK, doesn't divide any region!!
-      std::string fileName = "Data/triangle.txt"; // OK, not a triangle
+      //std::string fileName = "Data/triangle.txt"; // OK, not a triangle
       //std::string fileName = "Data/hardest one.txt";
       //std::string fileName = "Data/example_2.txt"; // the total weight is 30
       //std::string fileName = "Data/example_1.txt"; // the total weight is 20
@@ -303,14 +303,14 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
                 std::cout << "infinite vertex\n";
             }
             else {
-                std::cout << he.destination->point.x << " " << he.destination->point.y << "\n";
+                std::cout << he.destination->point << "\n";
             }
             std::cout << "Tail: ";
             if (he.origin == nullptr) {
                 std::cout << "infinite vertex\n";
             }
             else {
-                std::cout << he.origin->point.x << " " << he.origin->point.y << "\n";
+                std::cout << he.origin->point << "\n";
             }
     }
 
@@ -320,7 +320,6 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
     std::cout << "CHANGED STRUCTURE\n";
 
     // Modify the diagram in order to get the structure I used in the pseudocode
-    // DEBUG: a lot of edges get lost in the translation :(
     modifyStructure(diagram, newDiagram);
 
     auto& fs = newDiagram.getFaces();
@@ -329,24 +328,25 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
         do {
             std::cout << "Head: ";
             if (x->head->infinite != true) {
-                std::cout << x->head->point.x << " " << x->head->point.y << "\n";
+                std::cout << x->head->point << "\n";
             }
             else {
                 std::cout << "infinite vertex\n";
             }
             std::cout << "Tail: ";
             if (x->tail->infinite != true) {
-                std::cout << x->tail->point.x << " " << x->tail->point.y << "\n";
+                std::cout << x->tail->point << "\n";
             }
             else {
                 std::cout << "infinite vertex\n";
             }
+			x = x->next;
         } while (x != face->firstEdge);
     }
 
 
     //Construct the min-knapsack Voronoi diagram
-    //build_minKnapsack(newDiagram, points_with_weights, capacity);
+    build_minKnapsack(newDiagram, points_with_weights, capacity);
 
 
     // Visualize the diagram
