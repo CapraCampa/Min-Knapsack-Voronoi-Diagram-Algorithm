@@ -199,13 +199,10 @@ int circumcenterInside(std::list<Special_vertex*>::iterator& r_it,
 
 void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagram::FacePtr>& R) {
     auto& r = *r_ptr;
-    auto e_ptr = std::make_unique<std::vector<Voronoi::NewDiagram::HalfEdgePtr>>();
-    auto& e = *e_ptr;
-    auto lambda_ptr = std::make_unique<std::vector<Voronoi::NewDiagram::SitePtr>>();
-    auto& lambda = *lambda_ptr;
-    auto reg_ptr = std::make_unique<std::vector<Voronoi::NewDiagram::FacePtr>>();
-    auto& reg = *reg_ptr;
-
+    auto e = std::vector<Voronoi::NewDiagram::HalfEdgePtr>();
+    auto lambda = std::vector<Voronoi::NewDiagram::SitePtr>();
+    auto reg = std::vector<Voronoi::NewDiagram::FacePtr>();
+    
     e.push_back(r.firstEdge);
     lambda.push_back(e.at(0)->twin->label);
     reg.push_back(createRegion(R, r_ptr, lambda.at(0), e.at(0)));
@@ -327,10 +324,10 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                 } else {
                     l_iter = L.begin();
                     do{
-                         //(*std::next(l_iter))->edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
-                        (*std::next(l_iter))->edgein->next->twin->tail->infinite = true;
-                         //(*l_iter)->edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
-                        (*l_iter)->edgein->next->twin->tail->infinite = true;
+                         (*std::next(l_iter))->edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
+                        //(*std::next(l_iter))->edgein->next->twin->tail->infinite = true;
+                         (*l_iter)->edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
+                        //(*l_iter)->edgein->next->twin->tail->infinite = true;
                          (*std::next(l_iter))->edgein->next->next = (*l_iter)->edgein->next->twin;
                          (*l_iter)->reg->firstEdge = (*l_iter)->edgein->next->twin;
                          ++l_iter;
@@ -357,7 +354,7 @@ void build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point
     auto it = R.begin();
     // I keep examining regions until I arrive to the end of the list
     // If I comment the while I test a single iteration!
-    while(it != R.end()){
+    //while(it != R.end()){
         long last = nR;
         // I partition all the new regions and add new ones to the end of the list
         while (it != R.end() && (*it)->ID <= last) {
@@ -388,5 +385,5 @@ void build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point
             }
         }
         it = firstNewRegion;
-    }
+    //}
 }

@@ -256,14 +256,13 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
 }
 
 
-
   int main()
   {
       //double total = 4;
       
       // work
-      std::string fileName = "Data/example_3.txt"; // OK
-      //std::string fileName = "Data/equilatero_norm.txt"; // OK
+      //std::string fileName = "Data/example_3.txt"; // OK
+      std::string fileName = "Data/equilatero_norm.txt"; // OK
       
       // don't work
       //std::string fileName = "Data/Lee_2.txt"; // OK
@@ -271,7 +270,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
       //std::string fileName = "Data/triangle.txt"; // OK, not a triangle
       //std::string fileName = "Data/hardest one.txt";
       //std::string fileName = "Data/example_2.txt"; // the total weight is 30
-      //std::string fileName = "Data/example_1.txt"; // the total weight is 20
+      //std::string fileName = "Data/example_1.txt"; // the total weight is 20 (isn't completely visible)
       //std::string fileName = "Data/degenerate_1.txt"; // OK
       
 
@@ -296,7 +295,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
     // Compute the intersection between the diagram and a box
     //diagram.intersect(Box<double>{0.0, 0.0, 1.0, 1.0});
 
-    auto& hs = diagram.getHalfEdges();
+    /*auto& hs = diagram.getHalfEdges();
     for (const auto& he : hs) {
             std::cout << "Head: ";
             if (he.destination == nullptr) {
@@ -312,17 +311,16 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
             else {
                 std::cout << he.origin->point << "\n";
             }
-    }
-
+    }*/
      
     //Create the diagram with the sites and weights
     auto newDiagram = Voronoi::NewDiagram(points_with_weights, capacity);
-    std::cout << "CHANGED STRUCTURE\n";
+    //std::cout << "CHANGED STRUCTURE\n";
 
     // Modify the diagram in order to get the structure I used in the pseudocode
     modifyStructure(diagram, newDiagram);
 
-    auto& fs = newDiagram.getFaces();
+    /*auto& fs = newDiagram.getFaces();
     for (const auto& face : fs) {
         Voronoi::NewDiagram::HalfEdgePtr x = face->firstEdge;
         do {
@@ -343,7 +341,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
 			x = x->next;
         } while (x != face->firstEdge);
     }
-
+    */
 
     //Construct the min-knapsack Voronoi diagram
     build_minKnapsack(newDiagram, points_with_weights, capacity);
