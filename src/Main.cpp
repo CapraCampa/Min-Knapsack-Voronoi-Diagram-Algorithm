@@ -394,7 +394,7 @@ int main(int argc, char* argv[]) {
     modifyStructure(diagram, newDiagram);    
 
     //Construct the min-knapsack Voronoi diagram
-    build_minKnapsack(newDiagram, points_with_weights, capacity);
+    //build_minKnapsack(newDiagram, points_with_weights, capacity);
 
 
     // Visualize the diagram

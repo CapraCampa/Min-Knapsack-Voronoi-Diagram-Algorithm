@@ -1,22 +1,26 @@
 # Compiler
 CC = g++
 
+# Default file
+FILE = Data/equilatero_norm.txt
+
 # work
-#FILE = Data/example_3.txt // OK!
-#FILE = Data/Lee_1.txt // OK! but a bit cheating bcs this one should just stay order-1
+#FILE = Data/example_3.txt # OK!
+#FILE = Data/Lee_1.txt # OK! but a bit cheating bcs this one should just stay order-1
     
 # doesn't work (ordered based on which I want to fix first)
-#FILE = Data/equilatero_norm.txt // Not ok, I obtain both regions of order 1 and 2, I only need regions of order 2!
-#FILE = Data/four_points.txt // Not ok, I obtain both regions of order 1 and 2, I only need regions of order 2!
-# FILE = Data/hardest_one.txt
+#FILE = Data/equilatero_norm.txt # Not ok, I obtain both regions of order 1 and 2, I only need regions of order 2!
+#FILE = Data/four_points.txt # Not ok, I obtain both regions of order 1 and 2, I only need regions of order 2!
+#FILE = Data/hardest_one.txt
 #FILE = Data/example_1.txt
 #FILE = Data/example_2.txt
 
 #FILE = Data/Lee_fig2.txt
+#FILE = Data/Lee_fig2_2.txt
 #FILE = Data/Lee_2.txt
-#FILE = Data/degenerate_1.txt // I have no idea how it should even be fixed
+#FILE = Data/degenerate_1.txt # I have no idea how it should even be fixed
 
-FILE = Data/equilatero_norm.txt
+
 
 # Generic flags that are always valid 
 CFLAGS = -std=c++17 -Isrc/MyGAL/include

@@ -4,8 +4,9 @@ Given a set of points, their individual capacity and a total threshold to reach 
 
 For a more detailed definition of the structure read the article written by professor Plastria in 2016 **"Up- and downgrading the euclidean 1-median problem and knapsack Voronoi diagrams"**.
 
-This project uses the following libraries: 
+This project uses (completely or in part) the following libraries/components: 
 - **MyGal** library by pvigier to compute the Voronoi diagram of first order (https://github.com/pvigier/MyGAL)
 - **SFML** library to visualize the diagram (https://www.sfml-dev.org/index.php)
+- **UnionFind** implementation in c++ by kartikkukreja (https://github.com/kartikkukreja/blog-codes) (many modifications were applied to adapt it to this algorithm)
 
 © 2025. This work is openly licensed via CC BY-NC
