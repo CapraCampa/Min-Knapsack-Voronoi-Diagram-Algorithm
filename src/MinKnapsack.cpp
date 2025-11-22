@@ -26,6 +26,24 @@ struct Special_vertex {
     double d_minus;
     double d_plus;
     direction direz;
+
+    friend std::ostream& operator<<(std::ostream& os, const Special_vertex& f) {
+    os << "Special vertex with eti_minus: " << f.eti_minus << ", eti_plus: " << f.eti_plus << ", region ID on the right: "<< f.reg->ID << ", direction: " << f.direz <<"\n";
+    if (f.edgein != nullptr) {
+        os << ", edge-in:\n" << *(f.edgein) << "\n";
+    }
+    else {
+        os << ", edge-in: null \n";
+    }
+    if(f.edgeout!=nullptr){
+        os << ", edge-out:\n" << *f.edgeout;
+    }else{
+        os << ", edge-out null\n";
+    }
+
+    return os;
+} 
+
 };
 
 // Functions to help delete references
@@ -310,6 +328,10 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
             e.at(1) = (e.at(1))->next;
         }
 
+        for (auto& l : lambda ){
+            std::cout << *l <<"\n";
+        }
+
         // Check if I just need to partition in two subregions
         if ((e.at(1))->next->twin->label == lambda.at(0)) {
             e.at(0)->next->head = e.at(1)->head;
@@ -361,6 +383,10 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                     rv.edgeout = e.at(h)->next->twin->next;
                 }
                 L.push_back(rv);
+            }
+
+            for (auto& l : L){
+                std::cout << l <<"\n";
             }
 
             for (size_t l_iter = 0; l_iter < L.size(); ++l_iter) {
@@ -474,15 +500,14 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
 
         // I iterate over all new regions (it is already pointing to the first new region)
         while (it != R.end()){
-            //std::cout << "I examine region: " << (*it)->ID << "\n";
             // I insert each new region in the Union-Find structure and each of their edges in the ListE
             // REMARK: this list will contain both new edges and old edges of the previous regions
             unionFind.add_UF(((*it)->ID)-(*firstNewRegion)->ID, *it); 
             Voronoi::NewDiagram::HalfEdgePtr e = (*it)->firstEdge;
-            std::cout << "Following all the edges of region " << (*it)->ID << "\n";
+            //std::cout << "Following all the edges of region " << (*it)->ID << "\n";
             do{
                 e->region = (*it);
-                std::cout << "Next edge\n" << *e <<"\n";
+                //std::cout << "Next edge\n" << *e <<"\n";
                 E.push_back(e);
                 e = e->next;
             }while(e!=(*it)->firstEdge);
@@ -513,7 +538,7 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             //std::cout << "I examine element of the union find vector: " <<i <<" which is the region "<< *(unionFind.element(i).region) <<"\n";
             
             if (unionFind.find(i)==i && unionFind.element(i).next!=nullptr){
-                std::cout << "Index of the root: " << unionFind.find(i) << " which is the region " << unionFind.element(unionFind.find(i)).region->ID << ", next region in the same component is " << unionFind.element(unionFind.find(i)).next->region->ID <<"\n";
+                //std::cout << "Index of the root: " << unionFind.find(i) << " which is the region " << unionFind.element(unionFind.find(i)).region->ID << ", next region in the same component is " << unionFind.element(unionFind.find(i)).next->region->ID <<"\n";
                 auto* node = &unionFind.element(i);   // start at root
                 Voronoi::NewDiagram::FacePtr r = node->region;
                 Voronoi::NewDiagram::FacePtr t_ptr = std::make_shared<Voronoi::NewDiagram::Face>();
@@ -560,7 +585,6 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
 
         // I delete all edges in ListE
         for (auto& edge : E) {
-            std::cout << "\nEdge to delete:\n" << *edge;
             diagram.deleteHalfEdge(edge);
         }
         E.clear();
@@ -573,7 +597,7 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
                 //std::cout << "I deleted region with ID: " << (*it)->ID <<"\n";
                 it = R.erase(it); // erase safely
             } else {
-                std::cout << "Remaining region:\n" << *(*it) <<"\n";
+                //std::cout << "Remaining region:\n" << *(*it) <<"\n";
                 ++it;
             }
         }

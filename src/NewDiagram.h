@@ -153,7 +153,7 @@ namespace Voronoi{
             bool flag = true; /**< It's false if the face is to be eliminated */
 
             friend std::ostream& operator<<(std::ostream& os, const Face& f) {
-                os << "Region with ID: " << f.ID << ",weight: " << f.weight << ", sites:\n";
+                os << "Region with ID: " << f.ID << ", weight: " << f.weight << ", sites:\n";
                 for (auto& s : f.sites){
                     os << s->index << " ";
                 }
