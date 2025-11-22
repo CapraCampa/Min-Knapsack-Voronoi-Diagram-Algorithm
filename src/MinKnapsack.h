@@ -9,6 +9,6 @@
 #include "Point2D.h"
 #include "NewDiagram.h"
 
-void build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point2D, double>>& points, double total);
+std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point2D, double>>& points, double total);
 
 #endif

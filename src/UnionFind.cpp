@@ -1,51 +1,84 @@
+#include <vector>
+#include "NewDiagram.h"
+#include <cassert>
+
 class UF {
-  int *id, cnt, *sz;
-  public:
+    struct UFNode {
+        int parent;
+        Voronoi::NewDiagram::FacePtr region;
+        UFNode* next;
+    };
 
-    // Create an empty union find data structure with N isolated sets.
-    UF(int N) {
-        cnt = N; id = new int[N]; sz = new int[N];
-        for (int i = 0; i<N; i++)  id[i] = i, sz[i] = 1;
+    int cnt;
+    std::vector<int> sz;
+    std::vector<UFNode> nodes;
+    std::vector<UFNode*> head;
+    std::vector<UFNode*> tail;
+
+public:
+    UF(int N)
+        : cnt(N),
+          sz(N),
+          nodes(N),
+          head(N),
+          tail(N) {
+
+        for (int i = 0; i < N; i++) {
+            nodes[i].parent = i;
+            nodes[i].next = nullptr;
+            sz[i] = 1;
+            head[i] = &nodes[i];
+            tail[i] = &nodes[i];
+        }
     }
 
-    // To avoid memory leaks
-    ~UF() { delete[] id; delete[] sz; }
+    UFNode& element(int i) {
+        return nodes[i];
+    }
 
-    // Return the id of component corresponding to object p.
+    void add_UF(int i, Voronoi::NewDiagram::FacePtr reg) {
+        // Optional safety check (disable in release)
+        assert(i >= 0 && i < (int)nodes.size());
+
+        nodes[i].region = reg;
+    }
+
     int find(int p) {
-        int root = p;
-        while (root != id[root]){
-            root = id[root];
+        while (p != nodes[p].parent) {
+            p = nodes[p].parent;
         }
-        while (p != root){
-            int newp = id[p];
-            id[p] = root;
-            p = newp;
-        }
-        return root;
+        return p;
     }
-    // Replace sets containing x and y with their union.
+
     void merge(int x, int y) {
         int i = find(x);
         int j = find(y);
-        if (i == j){
-            return;
-        }
-        // make smaller root point to larger one
-        if (sz[i] < sz[j]){
-            id[i] = j, sz[j] += sz[i];
-        }else{
-            id[j] = i, sz[i] += sz[j];
-        }
+        if (i == j) return;
+
+        // union by size
+        if (sz[i] < sz[j]) std::swap(i, j);
+
+        // j joins i
+        nodes[j].parent = i;
+        sz[i] += sz[j];
+
+        // concatenate lists
+        tail[i]->next = head[j];
+        tail[i] = tail[j];
+
         cnt--;
     }
-    // Are objects x and y in the same set?
-    bool connected(int x, int y) {
-        return find(x) == find(y);
+
+    UFNode* iterate_set(int x) {
+        int root = find(x);
+        return head[root];  // use next to iterate
     }
 
-    // Return the number of disjoint sets.
-    int count(){
+    int count() const {
         return cnt;
+    }
+
+    int size() const {
+        return nodes.size();
     }
 };

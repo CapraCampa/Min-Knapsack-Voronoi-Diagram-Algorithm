@@ -4,6 +4,7 @@
 #define NewDiagram_h
  // STL
 #include <vector>
+#include <memory>
 #include <list>
 #include <unordered_set>
 // My includes
@@ -20,10 +21,10 @@ namespace Voronoi{
         struct Site;
 
         // I define the typename for the shared pointers
-        typedef std::shared_ptr<HalfEdge> HalfEdgePtr;
-        typedef std::shared_ptr<Vertex> VertexPtr;
-        typedef std::shared_ptr<Face> FacePtr;
-        typedef std::shared_ptr<Site> SitePtr;
+        using HalfEdgePtr = std::shared_ptr<HalfEdge> ;
+        using VertexPtr = std::shared_ptr<Vertex> ;
+        using FacePtr = std::shared_ptr<Face>;
+        using SitePtr = std::shared_ptr<Site>;
 
         /**
          * \brief Point associated with a face of the partitioning:
@@ -38,6 +39,11 @@ namespace Voronoi{
             Site(int i, Point2D p, double c)
                 : index(i), point(p), capacity(c) {
             }
+
+            friend std::ostream& operator<<(std::ostream& os, const Site& s) {
+                os << s.index;
+                return os;
+            } 
         };
 
         /**
@@ -83,6 +89,50 @@ namespace Voronoi{
             HalfEdgePtr next = nullptr; /**< Next half-edge in the face frontier */
 
             //HalfEdge(SitePtr s) : label(s) {};
+        friend std::ostream& operator<<(std::ostream& os, const HalfEdge& e) {
+
+            os << "Halfedge";
+
+            // Safe region access
+            if (e.region) {
+                os << " belonging to region with ID: " << e.region->ID;
+            } else {
+                os << " [region: null]";
+            }
+
+            // Safe right site (label)
+            if (e.label) {
+                os << ", with site on the right: " << e.label->index;
+            } else {
+                os << ", with site on the right: null";
+            }
+
+            // Safe left site (through twin)
+            if (e.twin && e.twin->label) {
+                os << " and with site on the left: " << e.twin->label->index;
+            } else {
+                os << " and with site on the left: null";
+            }
+
+            os << "\n";
+
+            // Safe tail
+            if (e.tail) {
+                os << ", tail: " << e.tail->point << "\n";
+            } else {
+                os << ", tail: null\n";
+            }
+
+            // Safe head
+            if (e.head) {
+                os << ", head: " << e.head->point << "\n";
+            } else {
+                os << ", head: null\n";
+            }
+
+            return os;
+        }
+
 
         private:
             typename std::list<HalfEdge>::iterator it;
@@ -103,13 +153,22 @@ namespace Voronoi{
             bool flag = true; /**< It's false if the face is to be eliminated */
 
             friend std::ostream& operator<<(std::ostream& os, const Face& f) {
-                os << "Region with ID: " << f.ID << ", weight: " << f.weight;
+                os << "Region with ID: " << f.ID << ",weight: " << f.weight << ", sites:\n";
+                for (auto& s : f.sites){
+                    os << s->index << " ";
+                }
                 if (f.pivot != nullptr) {
                     os << ", pivot: " << f.pivot->index << "\n";
                 }
                 else {
                     os << ", pivot: null \n";
                 }
+                if(f.firstEdge!=nullptr){
+                    os << ", firstedge:\n" << *f.firstEdge;
+                }else{
+                    os << ", firstedge null\n";
+                }
+
                 return os;
             } 
 
@@ -255,6 +314,7 @@ namespace Voronoi{
         FacePtr createFace(long id) {
             mFaces.emplace_back(std::make_shared<Face>());
             mFaces.back()->ID = id;
+            mFaces.back()->flag = 1;
             return mFaces.back();
         }
 

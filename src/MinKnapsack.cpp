@@ -1,6 +1,8 @@
 #include <memory>
-#include "MinKnapsack.h"
+#include <algorithm>
+#include <vector>
 #include <stdio.h>
+#include "MinKnapsack.h"
 #include "Point2D.h"
 #include "UnionFind.cpp"
 
@@ -86,7 +88,29 @@ void clearFaceVector(std::vector<Voronoi::NewDiagram::FacePtr>& vec) {
     vec.clear();
 }
 
+// Function to compare sets (I don't care about order of sites, just that they are the same ones!)
+bool same_sites(const std::vector<Voronoi::NewDiagram::SitePtr>& a,
+                const std::vector<Voronoi::NewDiagram::SitePtr>& b) {
+    if (a.size() != b.size()) return false;
 
+    // make copies to sort
+    std::vector<Voronoi::NewDiagram::SitePtr> sorted_a = a;
+    std::vector<Voronoi::NewDiagram::SitePtr> sorted_b = b;
+
+    auto cmp = [](const Voronoi::NewDiagram::SitePtr& s1,
+                  const Voronoi::NewDiagram::SitePtr& s2) {
+        return s1->index < s2->index;
+    };
+
+    std::sort(sorted_a.begin(), sorted_a.end(), cmp);
+    std::sort(sorted_b.begin(), sorted_b.end(), cmp);
+
+    for (size_t i = 0; i < sorted_a.size(); ++i) {
+        if (sorted_a[i]->index != sorted_b[i]->index) return false;
+    }
+
+    return true;
+}
 
 Voronoi::NewDiagram::FacePtr createRegion(std::list<Voronoi::NewDiagram::FacePtr>& R,Voronoi::NewDiagram::FacePtr&  r, Voronoi::NewDiagram::SitePtr lambda, Voronoi::NewDiagram::HalfEdgePtr e) {
     nR++;
@@ -400,7 +424,7 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
 }
 
 
-void build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point2D, double>>& points, double capacity)
+std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point2D, double>>& points, double capacity)
 {
 	std::list<Voronoi::NewDiagram::FacePtr>& R = diagram.getFaces();
     total = capacity;
@@ -409,27 +433,30 @@ void build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point
     // I keep examining regions until I arrive to the end of the list
     // If I comment the while I test a single iteration!
     //while(it != R.end()){
-        long last = nR;
+        long firstNew = R.size();
         // I partition all the new regions and add new ones to the end of the list
-        while (it != R.end() && (*it)->ID <= last) {
-            std::cout << "I examine the region: " << (*it)->ID << " with pivot: "<< (*it)->pivot << "\n";
+        while (it != R.end() && (*it)->ID < firstNew) {
+            //std::cout << "I examine the region: " << (*it)->ID << " with point: "<< (*it)->sites.at(0)->index << "\n";
             //std::cout << "I examine: " << *(*it);
             //std::cout << "Point: " << ((*it)->sites).at(0)->point << "\n";
             if ((*it)->flag == 1 && (*it)->pivot == nullptr && ((*it)->weight < capacity)) {
-                std::cout << "I divide the region: " << (*it)->ID << "\n";
+                //std::cout << "I divide the region: " << (*it)->ID << "\n";
                 partition(*it, R);
                 (*it)->flag = 0;
                 // I erase the current region and pass to the next (putting the flag to 0 wasn't really necessary)
-                it = R.erase(it);
+                // it = R.erase(it);
+            // }
+            // else {
             }
-            else {
-                ++it;
-            }
+            ++it;
         }
-        std::list<Voronoi::NewDiagram::FacePtr>::iterator& firstNewRegion = it;
+        long lastNewBeforeMerge = nR;
+        std::list<Voronoi::NewDiagram::FacePtr>::iterator firstNewRegion = std::next(R.begin(), firstNew);
+        it = std::next(R.begin(), firstNew);
+
 
         // Create structure Union-Find
-        std::vector<int> UF(nR-((*firstNewRegion)->ID));
+        UF unionFind = UF(lastNewBeforeMerge-((*firstNewRegion)->ID)+1);
 
         // All new edges created during the partitions must be assigned their region
         // I create a list of new edges (ListE)
@@ -437,81 +464,114 @@ void build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point
 
         // I iterate over all new regions (it is already pointing to the first new region)
         while (it != R.end()){
+            //std::cout << "I examine region: " << (*it)->ID << "\n";
             // I insert each new region in the Union-Find structure and each of their edges in the ListE
             // REMARK: this list will contain both new edges and old edges of the previous regions
-            UF[nR-((*it)->ID)]; //TODO
+            unionFind.add_UF(((*it)->ID)-(*firstNewRegion)->ID, *it); 
             Voronoi::NewDiagram::HalfEdgePtr e = (*it)->firstEdge;
+            //std::cout << "Following the first edge" << "of region " << (*it)->ID << "\n" << *e <<"\n";
             do{
-                e->region;
-                e = e->next;
+                e->region = (*it);
                 E.push_back(e);
+                e = e->next;
+                //std::cout << "Next edge\n" << *e <<"\n";
             }while(e!=(*it)->firstEdge);
             ++it;
         }
-
+        std::cout << "I added all new regions to the union find structure!\n";
+        std::cout << "Number of edges to delete: " << E.size() <<"\n";
         std::list<Voronoi::NewDiagram::HalfEdgePtr>::iterator e = E.begin();
         while (e != E.end()){
             // I iterate over ListE: if an edge is actually a new edge (divides different regions) then I take it out of ListE
             // This means that ListE will contain all edges to be eliminated
-            if((*e)->region->sites!=(*e)->twin->region->sites || (*e)->region->pivot>0 || (*e)->twin->region->pivot >0){
+            // std::cout << "This edge belong to this region:\n"<< *((*e)->region);
+            // std::cout << "Its twin belong to this region:\n" << *((*e)->twin->region);
+            if(!same_sites((*e)->region->sites, (*e)->twin->region->sites) || (*e)->region->pivot!=nullptr || (*e)->twin->region->pivot!=nullptr){
                 e = E.erase(e);
             }else{
                 // If an edge is NOT a new edge it means its neighbouring regions are actually the same region: I sign it as to be eliminated and apply Union-Find
                 (*e)->region->flag=0;
-                UF; //TODO merge together the regions
+                unionFind.merge(unionFind.find((*e)->region->ID-(*firstNewRegion)->ID), unionFind.find((*e)->twin->region->ID-(*firstNewRegion)->ID)); //TODO merge together the regions
                 ++e;
             }
         }
+        std::cout << "I merged all regions that are actually the same!\n";
 
-        int lastNewRegion = nR;
-        for (int i =0; i< (lastNewRegion-(*firstNewRegion)->ID);++i){
+
+        for (int i =0; i<= (lastNewBeforeMerge-(*firstNewRegion)->ID);++i){
             // I iterate over all new regions and use Union-Find to find the first of all components that form a same new region
-            if (UF[i]==UF[i]){ //TODO fix find and next
-                auto r = std::make_shared<Voronoi::NewDiagram::FacePtr>(); // TODO
+            //std::cout << "I examine element of the union find vector: " <<i <<" which is the region "<< *(unionFind.element(i).region) <<"\n";
+            std::cout << "Index of the root: " << unionFind.find(i) << " which is the region " << unionFind.element(unionFind.find(i)).region->ID << ", next region in the same component is " << unionFind.element(unionFind.find(i)).next->region->ID <<"\n";
+
+            if (unionFind.find(i)==i && unionFind.element(i).next!=nullptr){
+                auto* node = &unionFind.element(i);   // start at root
+                Voronoi::NewDiagram::FacePtr r = node->region;
                 Voronoi::NewDiagram::FacePtr t_ptr = std::make_shared<Voronoi::NewDiagram::Face>();
-                auto& T = *t_ptr;
                 nR++;
-                T.ID = nR;
-                T.flag = 1;
-                T.weight = (*r)->weight; //TODO
-                T.sites = (*r)->sites; //TODO
-                auto newRegionFirstEdge = Voronoi::NewDiagram::HalfEdgePtr(nullptr);
-                do{
-                    auto e = (*r)->firstEdge;
-                    do
-                    {
-                        (*e).region = t_ptr; //TODO understand if t_ptr is pointing to updated version of T
-                        if(newRegionFirstEdge==nullptr || e->tail==Voronoi::NewDiagram::Vertex::getNullVertex()){
-                            newRegionFirstEdge=e;
-                        }
-                    } while (e!=nullptr);
-                    
-                } while (UF[i]); //TODO iterate until end of list
-                
-
+                t_ptr->ID = nR;
+                t_ptr->flag = 1;
+                t_ptr->weight = r->weight; 
+                t_ptr->sites = r->sites; 
+                Voronoi::NewDiagram::HalfEdgePtr newRegionFirstEdge = nullptr;
+                while (node != nullptr) {
+                    auto e = node->region->firstEdge;
+                    do{
+                        e->region = t_ptr;
+                        if (newRegionFirstEdge == nullptr ||
+                            e->tail->infinite == true) {
+                                newRegionFirstEdge = e;
+                            }
+                            e = e->next;  
+                        }while (e != node->region->firstEdge);
+                        node = node->next;
+                    }
+                    // If a region is composed of only one component I don't need to do anything,
+                    // otherwise I create a new record for the first component region: this will represent the whole fused region
+                    // I insert this region in the list of regions ListR
+                    t_ptr->firstEdge = newRegionFirstEdge;
+                    //std::cout << *newRegionFirstEdge;
+                R.push_back(t_ptr);
+                std::cout << "New merged region" << *t_ptr <<"\n";
             }
-            // If a region is composed of only one component I don't need to do anything,
-            // otherwise I create a new record for the first component region: this will represent the whole fused region
-            // I insert this region in the list of regions ListR
-
         }
         
+        std::cout << "Number of edges to delete: " << E.size() <<"\n";
         // I iterate over ListE and update their connections so that, when they wil be eliminated, all other edges will be correctly connected
+        e = E.begin();
+        while (e != E.end()){
+            auto f = (*e)->next->twin;
+            while(f->next!=(*e)->twin && (*e)!=f){
+                f = f->next->twin;
+            }
+            f->next = (*e)->next;
+            ++e;
+        }
+        std::cout << "I deleted all connections of useless edges!\n";
 
         // I delete all edges in ListE
+        for (auto& edge : E) {
+            std::cout << "\nEdge to delete:\n" << *edge;
+            diagram.deleteHalfEdge(edge);
+        }
+        E.clear();
+        std::cout << "I deleted all useless edges!\n";
 
-        it = firstNewRegion;
+        it = R.begin();
         // I delete regions that have been fused together
         while (it != R.end()) {
-            if ((*it)->flag == 0) { 
-                it = R.erase(it); 
-            }
-            else {
-                ++it; 
+            if (!(*it)->flag) {
+                //std::cout << "I deleted region with ID: " << (*it)->ID <<"\n";
+                it = R.erase(it); // erase safely
+            } else {
+                std::cout << "Remaining region:\n" << *(*it) <<"\n";
+                ++it;
             }
         }
         it = firstNewRegion;
+
+        std::cout << "I deleted all useless regions!\n";
     //}
+    return R;
 }
 
 

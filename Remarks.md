@@ -12,8 +12,9 @@ I had many problems with memory but it seems that, by freeing the whole diagram 
 For difficult diagrams I have again memory leaks.
 I should fix the first iteration of all diagrams and then pass to the subsequent iterations.
 
-For now it works only for 1 iterations and no deletations of edges.
-Next objective: 1 iteration but deletion of edges, i.e. 
+For now it works only for simple regions up to region ord order 2.
+
+One important bug: if I use & I am not modifying a copy but also the original object! Be careful!
 
 
 ## What should happen for each example

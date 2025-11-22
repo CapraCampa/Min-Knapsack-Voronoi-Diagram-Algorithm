@@ -312,7 +312,7 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
     // Iterate again over all the halfedges to assign the right triplet to all vertices,
     // it's possible only now because we needed to connect all halfedges to each other
     for (auto& f : newDiagram.getFaces()) {
-        auto& e = f->firstEdge;
+        auto e = f->firstEdge;
         do
         {
             auto& v1_new = e->head;
@@ -392,10 +392,20 @@ int main(int argc, char* argv[]) {
 
     // Modify the diagram in order to get the structure I used in the pseudocode
     modifyStructure(diagram, newDiagram);    
+    auto& faces = newDiagram.getFaces();
 
     //Construct the min-knapsack Voronoi diagram
-    //build_minKnapsack(newDiagram, points_with_weights, capacity);
-
+    faces = build_minKnapsack(newDiagram, points_with_weights, capacity);
+    
+    // std::cout << "MODIFIED STRUCTURE\n";
+    // auto& fs = newDiagram.getFaces();
+    // for (const auto& face : fs) {
+    //     Voronoi::NewDiagram::HalfEdgePtr x = face->firstEdge;
+    //     do {
+    //         std::cout << *x << "\n";
+    //         x = x->next;
+    //     } while (x != face->firstEdge);
+    // }
 
     // Visualize the diagram
     if (visualize==true){
@@ -428,7 +438,6 @@ int main(int argc, char* argv[]) {
         
         sf::VertexArray allEdges(sf::Lines);
 
-        auto& faces = newDiagram.getFaces();
         for (auto& face : faces) {
             Voronoi::NewDiagram::HalfEdgePtr edge = face->firstEdge;
             do {
