@@ -397,6 +397,7 @@ int main(int argc, char* argv[]) {
     // std::cout << "MODIFIED STRUCTURE\n";
     // auto& fs = newDiagram.getFaces();
     // for (const auto& face : fs) {
+    //     std::cout << *face <<"\n";
     //     Voronoi::NewDiagram::HalfEdgePtr x = face->firstEdge;
     //     do {
     //         std::cout << *x << "\n";

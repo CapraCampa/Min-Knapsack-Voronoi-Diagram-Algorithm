@@ -299,6 +299,7 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
         e.at(0) = e.at(0)->next;
     }
 
+    // If there are never changes in the external labels then it's a special case: we don't need to partition the region but just to add it as it is 
     if (e.at(0)->next->twin->label != lambda.at(0)) {
         lambda.push_back(e.at(0)->next->twin->label);
         e.push_back(e.at(0)->next);
@@ -309,19 +310,21 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
             e.at(1) = (e.at(1))->next;
         }
 
+        // Check if I just need to partition in two subregions
         if ((e.at(1))->next->twin->label == lambda.at(0)) {
             e.at(0)->next->head = e.at(1)->head;
             e.at(0)->next->twin->tail = e.at(1)->head;
             e.at(0)->next->next = e.at(1)->next;
             e.at(1)->next = e.at(0)->next->twin;
-        }
-        else {
+        }else{
+            // Case where I need to partition in 3 or more subregions
             int k = 1;
             lambda.push_back(e.at(1)->next->twin->label);
             e.push_back(e.at(1)->next);
             createPendingEdge(e.at(1), e.at(2));
             bool open = false;
 
+            // Create all pending edges
             do {
                 reg.push_back(createRegion(R, r_ptr, lambda.at(k + 1), e.at(k)->next->twin));
                 k++;
@@ -341,13 +344,14 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
 
             // Partition in 3 parts (first part)
             std::vector<Special_vertex> L{};
+            // E is the ??
             int E = 0;
             for (int h = 0; h < k; h++) {
                 ++E;
                 Special_vertex rv{};
                 rv.eti_minus = lambda.at(h);
-                rv.eti_plus = lambda.at(h % (k + 1));
-                rv.reg = reg.at(h % (k + 1));
+                rv.eti_plus = lambda.at((h+1) % k); // I CHANGED THE ALGORITHM: NO IDEA IF IT'S BETTER
+                rv.reg = reg.at((h+1) % k); // I CHANGED THE ALGORITHM: NO IDEA IF IT'S BETTER
                 rv.edgein = e.at(h);
 
                 if (rv.edgein->head->infinite) {
@@ -386,6 +390,7 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
             }
 
             // Partition in 3 parts (second part)
+            // I keep iterating over the special vertices until I finish the partitions to create
             size_t l_last_iter = L.size() - 1;
             do {
                 while ((((l_last_iter + 2) % L.size()) != 0) &&
@@ -414,7 +419,8 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                     L[1].edgein->next->next = L[0].edgeout;
 
                     // I delete the list making sure to not leave dandling references
-                    clearSpecialVertexVector(L);
+                    //clearSpecialVertexVector(L);
+                    L.clear();
                     E = 0;
                 }
             } while (E != 0);
@@ -473,12 +479,12 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             // REMARK: this list will contain both new edges and old edges of the previous regions
             unionFind.add_UF(((*it)->ID)-(*firstNewRegion)->ID, *it); 
             Voronoi::NewDiagram::HalfEdgePtr e = (*it)->firstEdge;
-            //std::cout << "Following the first edge" << "of region " << (*it)->ID << "\n" << *e <<"\n";
+            std::cout << "Following all the edges of region " << (*it)->ID << "\n";
             do{
                 e->region = (*it);
+                std::cout << "Next edge\n" << *e <<"\n";
                 E.push_back(e);
                 e = e->next;
-                //std::cout << "Next edge\n" << *e <<"\n";
             }while(e!=(*it)->firstEdge);
             ++it;
         }
@@ -505,9 +511,9 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
         for (int i =0; i<= (lastNewBeforeMerge-(*firstNewRegion)->ID);++i){
             // I iterate over all new regions and use Union-Find to find the first of all components that form a same new region
             //std::cout << "I examine element of the union find vector: " <<i <<" which is the region "<< *(unionFind.element(i).region) <<"\n";
-            std::cout << "Index of the root: " << unionFind.find(i) << " which is the region " << unionFind.element(unionFind.find(i)).region->ID << ", next region in the same component is " << unionFind.element(unionFind.find(i)).next->region->ID <<"\n";
-
+            
             if (unionFind.find(i)==i && unionFind.element(i).next!=nullptr){
+                std::cout << "Index of the root: " << unionFind.find(i) << " which is the region " << unionFind.element(unionFind.find(i)).region->ID << ", next region in the same component is " << unionFind.element(unionFind.find(i)).next->region->ID <<"\n";
                 auto* node = &unionFind.element(i);   // start at root
                 Voronoi::NewDiagram::FacePtr r = node->region;
                 Voronoi::NewDiagram::FacePtr t_ptr = std::make_shared<Voronoi::NewDiagram::Face>();

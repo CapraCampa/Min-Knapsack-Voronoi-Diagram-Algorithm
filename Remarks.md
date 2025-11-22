@@ -16,6 +16,9 @@ For now it works only for simple regions up to region ord order 2.
 
 One important bug: if I use & I am not modifying a copy but also the original object! Be careful!
 
+I still have many memory leaks!!
+
+Next thing to fix: It seems that I sometimes forget to assign the regions to the edges! But which region should I assign? when? when do i check an edge region?
 
 ## What should happen for each example
 - equilatero_norm &#8594; 3 points, I need exactly 2 to satisfy the request. I expect to see all regions of order 2.
