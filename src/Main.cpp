@@ -394,9 +394,6 @@ int main(int argc, char* argv[]) {
     modifyStructure(diagram, newDiagram);    
     auto& faces = newDiagram.getFaces();
 
-    //Construct the min-knapsack Voronoi diagram
-    faces = build_minKnapsack(newDiagram, points_with_weights, capacity);
-    
     // std::cout << "MODIFIED STRUCTURE\n";
     // auto& fs = newDiagram.getFaces();
     // for (const auto& face : fs) {
@@ -406,6 +403,20 @@ int main(int argc, char* argv[]) {
     //         x = x->next;
     //     } while (x != face->firstEdge);
     // }
+
+    //Construct the min-knapsack Voronoi diagram
+    faces = build_minKnapsack(newDiagram, points_with_weights, capacity);
+    
+    // std::cout << "UPDATED STRUCTURE\n";
+    // auto& fs = faces;
+    // for (const auto& face : fs) {
+    //     Voronoi::NewDiagram::HalfEdgePtr x = face->firstEdge;
+    //     do {
+    //         std::cout << *x << "\n";
+    //         x = x->next;
+    //     } while (x != face->firstEdge);
+    // }
+
 
     // Visualize the diagram
     if (visualize==true){

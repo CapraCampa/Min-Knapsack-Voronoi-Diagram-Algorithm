@@ -430,10 +430,10 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
     total = capacity;
     nR = R.size() - 1;
     std::list<Voronoi::NewDiagram::FacePtr>::iterator it = R.begin();
+    long firstNew = R.size();
     // I keep examining regions until I arrive to the end of the list
     // If I comment the while I test a single iteration!
     //while(it != R.end()){
-        long firstNew = R.size();
         // I partition all the new regions and add new ones to the end of the list
         while (it != R.end() && (*it)->ID < firstNew) {
             //std::cout << "I examine the region: " << (*it)->ID << " with point: "<< (*it)->sites.at(0)->index << "\n";
@@ -450,6 +450,10 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             }
             ++it;
         }
+        // If no new regions have been added I return right away!
+        // if (firstNew==R.size()){
+        //     break;
+        // }
         long lastNewBeforeMerge = nR;
         std::list<Voronoi::NewDiagram::FacePtr>::iterator firstNewRegion = std::next(R.begin(), firstNew);
         it = std::next(R.begin(), firstNew);
@@ -568,6 +572,7 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             }
         }
         it = firstNewRegion;
+        firstNew = R.size();
 
         std::cout << "I deleted all useless regions!\n";
     //}
