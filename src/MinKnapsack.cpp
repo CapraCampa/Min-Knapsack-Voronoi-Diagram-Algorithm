@@ -502,12 +502,13 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             unionFind.add_UF(((*it)->ID)-(*firstNewRegion)->ID, *it); 
             Voronoi::NewDiagram::HalfEdgePtr e = (*it)->firstEdge;
             //std::cout << "Following all the edges of region " << (*it)->ID << "\n";
+            int satefyLoop = 0;
             do{
                 e->region = (*it);
                 //std::cout << "Next edge\n" << *e <<"\n";
                 E.push_back(e);
-                if (e == e->next->next){
-                    std::cout << "\nThis edge:\n" << *e << " and this edge:\n" << *(e->next) << " are connected to each other in a loop!\n";
+                if (++satefyLoop>10000){
+                    std::cout << "\nThis edge:\n" << *e << " and this edge:\n" << *(e->next) << " are stuck in a loop!\n";
                     break;
                 }
                 e = e->next;
@@ -567,7 +568,7 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
                     t_ptr->firstEdge = newRegionFirstEdge;
                     //std::cout << *newRegionFirstEdge;
                 R.push_back(t_ptr);
-                std::cout << "New merged region" << *t_ptr <<"\n";
+                std::cout << "New merged region:\n" << *t_ptr <<"\n";
             }
         }
         
