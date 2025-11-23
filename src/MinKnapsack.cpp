@@ -28,7 +28,7 @@ struct Special_vertex {
     direction direz;
 
     friend std::ostream& operator<<(std::ostream& os, const Special_vertex& f) {
-    os << "Special vertex with eti_minus: " << f.eti_minus << ", eti_plus: " << f.eti_plus << ", region ID on the right: "<< f.reg->ID << ", direction: " << f.direz <<"\n";
+    os << "Special vertex with eti_minus: " << f.eti_minus->index << ", eti_plus: " << f.eti_plus->index << ", region ID on the right: "<< f.reg->ID << ", direction: " << f.direz <<"\n";
     if (f.edgein != nullptr) {
         os << ", edge-in:\n" << *(f.edgein) << "\n";
     }
@@ -149,7 +149,7 @@ Voronoi::NewDiagram::FacePtr createRegion(std::list<Voronoi::NewDiagram::FacePtr
         t.pivot = nullptr;
     }
     R.push_back(t_ptr);
-    std::cout << "I added the region: " << R.back()->ID <<"\n";
+    std::cout << "I added the region: " << *R.back() <<"\n";
     return t_ptr;
 }
 
@@ -221,6 +221,7 @@ void chooseDirection(Special_vertex* r) {
 
 
 int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, bool open) {
+    std::cout << "Detected circumcenter!\n";
     auto v_ptr = std::make_shared<Voronoi::NewDiagram::Vertex>();
     auto& v = *v_ptr;
 
@@ -328,9 +329,6 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
             e.at(1) = (e.at(1))->next;
         }
 
-        for (auto& l : lambda ){
-            std::cout << *l <<"\n";
-        }
 
         // Check if I just need to partition in two subregions
         if ((e.at(1))->next->twin->label == lambda.at(0)) {
@@ -349,7 +347,7 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
             // Create all pending edges
             do {
                 reg.push_back(createRegion(R, r_ptr, lambda.at(k + 1), e.at(k)->next->twin));
-                k++;
+                k++; // in the algorithm k goes from 1 to length, here it goes from 0 to length-1!!
                 while (e.at(k)->next->twin->label == lambda.at(k)) {
                     e.at(k) = e.at(k)->next;
                 }
@@ -366,14 +364,14 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
 
             // Partition in 3 parts (first part)
             std::vector<Special_vertex> L{};
-            // E is the ??
+            // E is the number of special vertices left to examine
             int E = 0;
-            for (int h = 0; h < k; h++) {
+            for (int h = 0; h <= k; h++) {
                 ++E;
                 Special_vertex rv{};
                 rv.eti_minus = lambda.at(h);
-                rv.eti_plus = lambda.at((h+1) % k); // I CHANGED THE ALGORITHM: NO IDEA IF IT'S BETTER
-                rv.reg = reg.at((h+1) % k); // I CHANGED THE ALGORITHM: NO IDEA IF IT'S BETTER
+                rv.eti_plus = lambda.at((h+1) % (k+1)); // I CHANGED THE ALGORITHM: IT SHOULD BE BETTER
+                rv.reg = reg.at((h+1) % (k+1)); // I CHANGED THE ALGORITHM: IT SHOULD BE BETTER 
                 rv.edgein = e.at(h);
 
                 if (rv.edgein->head->infinite) {
@@ -383,10 +381,6 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                     rv.edgeout = e.at(h)->next->twin->next;
                 }
                 L.push_back(rv);
-            }
-
-            for (auto& l : L){
-                std::cout << l <<"\n";
             }
 
             for (size_t l_iter = 0; l_iter < L.size(); ++l_iter) {
@@ -413,16 +407,18 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
 
             for (auto& vertex : L) {
                 chooseDirection(&vertex);
+                std::cout << vertex <<"\n";
             }
 
             // Partition in 3 parts (second part)
             // I keep iterating over the special vertices until I finish the partitions to create
             size_t l_last_iter = L.size() - 1;
+            int doSafety = 0;
             do {
-                while ((((l_last_iter + 2) % L.size()) != 0) &&
-                    (L[(l_last_iter + 1) % L.size()].direz != MINUS || L[(l_last_iter + 2) % L.size()].direz != PLUS || L[(l_last_iter + 1) % L.size()].d_plus < 0)) {
+                while ((((l_last_iter + 2) % L.size()) != 0) && (L[(l_last_iter + 1) % L.size()].direz != MINUS || L[(l_last_iter + 2) % L.size()].direz != PLUS || L[(l_last_iter + 1) % L.size()].d_plus < 0)) {                        
                     l_last_iter = (l_last_iter + 1) % L.size();
                 }
+
                 // Check if there exists a circumcenter inside
                 if (L[(l_last_iter + 1) % L.size()].direz != MINUS &&
                     L[(l_last_iter + 2) % L.size()].direz != PLUS &&
@@ -486,6 +482,7 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
         // if (firstNew==R.size()){
         //     break;
         // }
+        std::cout << "I partitioned all regions!\n";
         long lastNewBeforeMerge = nR;
         std::list<Voronoi::NewDiagram::FacePtr>::iterator firstNewRegion = std::next(R.begin(), firstNew);
         it = std::next(R.begin(), firstNew);
@@ -509,6 +506,10 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
                 e->region = (*it);
                 //std::cout << "Next edge\n" << *e <<"\n";
                 E.push_back(e);
+                if (e == e->next->next){
+                    std::cout << "\nThis edge:\n" << *e << " and this edge:\n" << *(e->next) << " are connected to each other in a loop!\n";
+                    break;
+                }
                 e = e->next;
             }while(e!=(*it)->firstEdge);
             ++it;
