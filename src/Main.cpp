@@ -340,6 +340,8 @@ int main(int argc, char* argv[]) {
     // so you need to put this variable to false to be able to run Valgrind analysis correctly
     bool visualize = true;
 
+    bool minKnapsack = true;
+
     // Parse command-line arguments
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
@@ -361,8 +363,18 @@ int main(int argc, char* argv[]) {
                 std::cerr << "--visualize requires 0 or 1\n";
                 return 1;
             }
-        }
-        else {
+        }else if (arg=="--minKnapsack"){
+            if (i +1 < argc){
+                std::string val = argv[i + 1];
+                if (val == "0") minKnapsack = false;
+                else if (val=="1") minKnapsack = true;
+                else {
+                    std::cerr << "Invalid value for --minKnapsack: " << val << "\n";
+                    return 1;
+                }
+                i++;
+            }
+        }else {
             std::cerr << "Unknown argument: " << arg << std::endl;
         }
     }
@@ -405,8 +417,10 @@ int main(int argc, char* argv[]) {
     //     } while (x != face->firstEdge);
     // }
 
-    //Construct the min-knapsack Voronoi diagram
-    faces = build_minKnapsack(newDiagram, points_with_weights, capacity);
+    if (minKnapsack){
+        //Construct the min-knapsack Voronoi diagram
+        faces = build_minKnapsack(newDiagram, points_with_weights, capacity);
+    }
     
     // std::cout << "UPDATED STRUCTURE\n";
     // auto& fs = faces;

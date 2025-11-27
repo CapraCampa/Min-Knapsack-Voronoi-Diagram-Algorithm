@@ -43,6 +43,9 @@ debug_build: $(OUT)
 run: $(OUT)
 	./$(OUT) --file $(FILE) --visualize 1
 
+base: $(OUT)
+	./$(OUT) --file $(FILE) --visualize 1 --minKnapsack 0
+
 valgrind: debug_build
 	valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./$(OUT) --file $(FILE) --visualize 0
 
