@@ -479,14 +479,13 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             ++it;
         }
         // If no new regions have been added I return right away!
-        // if (firstNew==R.size()){
-        //     break;
-        // }
+        if (firstNew==R.size()){
+            return R;
+        }
         std::cout << "I partitioned all regions!\n";
         long lastNewBeforeMerge = nR;
         std::list<Voronoi::NewDiagram::FacePtr>::iterator firstNewRegion = std::next(R.begin(), firstNew);
         it = std::next(R.begin(), firstNew);
-
 
         // Create structure Union-Find
         UF unionFind = UF(lastNewBeforeMerge-((*firstNewRegion)->ID)+1);
@@ -604,7 +603,7 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             }
         }
         it = firstNewRegion;
-        firstNew = R.size();
+        firstNew = R.size()-1;
 
         std::cout << "I deleted all useless regions!\n";
     //}

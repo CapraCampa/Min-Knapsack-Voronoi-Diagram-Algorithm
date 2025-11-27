@@ -58,5 +58,6 @@
         "cinttypes": "cpp",
         "typeindex": "cpp",
         "typeinfo": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/vale/minknapsack/src/MyGAL"
 }
