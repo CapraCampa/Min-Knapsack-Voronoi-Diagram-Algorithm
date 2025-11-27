@@ -8,9 +8,10 @@ FILE = Data/equilatero_norm.txt
 #FILE = Data/Lee_1.txt # OK! but a bit cheating bcs this one should just stay order-1
 #FILE = Data/equilatero_norm.txt # OK, I obtain only regions of order 2!
 #FILE = Data/example_3.txt # OK!
+#FILE = Data/example_4.txt # OK!
     
 # doesn't work (ordered based on which I want to fix first)
-FILE = Data/four_points.txt # Not ok, I obtain both regions of order 1 and 2, I only need regions of order 2!
+#FILE = Data/four_points.txt # Not ok, I obtain both regions of order 1 and 2, I only need regions of order 2!
 #FILE = Data/hardest_one.txt
 #FILE = Data/example_1.txt
 #FILE = Data/example_2.txt

@@ -23,7 +23,8 @@ Next thing to fix: It seems that I sometimes forget to assign the regions to the
 ## What should happen for each example
 - equilatero_norm &#8594; 3 points, I need exactly 2 to satisfy the request. I expect to see all regions of order 2.
 - four_points &#8594; 4 points, I need exactly 2 to satisfy the request. I expect to see all regions of order 2.
-- example_3 &#8594; 3 points, only one is able to satisfy by itself (the one in the bottom part), for all others I need multiple points. I expect 1 region of order 1 and all others of order 2.
+- example_3 &#8594; 3 points, only one is able to satisfy by itself (the one in the bottom part), for all others I need multiple points. I expect 1 region of order 1 and all others of order 2. Since the points together have NOT the same weight I want to keep their order.
+- example_4 &#8594; 3 points, only one is able to satisfy by itself (the one in the bottom part), for all others I need multiple points. I expect 1 region of order 1 and all others of order 2. Since the points together have the same weight I want to forget their order and fuse them together.
 - hardest_one &#8594; 10 points, 9 of them satisfy the request by themself, while the central one needs exactly one of the others. I expect 9 regions of order 1 and the central region divided in 9 parts. (why hardest? because the iterative decomposition of the region needs 2 pass instead of just 1!)
 - degenerate_1 &#8594; 3 collinear points, at least 2 or three of them are needed to satisfy the request. I don't know how it should be handled!!
 - example_1 &#8594; 6 points, I need at least regions of 2 points to satisfy the request. I expect a mix of regions from (possibly) 2 to (possibly) 5
