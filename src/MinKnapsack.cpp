@@ -40,6 +40,8 @@ struct Special_vertex {
     }else{
         os << ", edge-out null\n";
     }
+    
+    std::cout << "d_minus: " << f.d_minus << ", d_plus: " << f.d_plus << "\n";
 
     return os;
 } 
@@ -160,8 +162,14 @@ void createPendingEdge(Voronoi::NewDiagram::HalfEdgePtr e, Voronoi::NewDiagram::
     a->head = Voronoi::NewDiagram::Vertex::getNullVertex(); //??? when i put a real vertex i have to be careful to not change the value of the static vertex!!!!!!!!!!!!
     b->tail = Voronoi::NewDiagram::Vertex::getNullVertex(); //???
     b->head = f->tail;
-    a->label = e->twin->label;
-    b->label = f->twin->label;
+    // TODO check if this makes sense: I differentiate if it's a pending edge which creates a new internal region or not
+    if (e->twin->label == f->twin->label){
+        a->label = e->label;
+        b->label = f->label;
+    }else{
+        a->label = e->twin->label;
+        b->label = f->twin->label;
+    }
     a->twin = b;
     b->twin = a;
     b->next = f;
@@ -210,44 +218,77 @@ bool pointInsideRegion(Point2D p, Point2D p1, Point2D p2) {
 
 void chooseDirection(Special_vertex* r) {
     r->direz = EQUAL;
-    if ((1/r->d_minus)>(1/r->d_plus)) {
-        r->direz = MINUS;
-    }
-    if ((1 / r->d_minus) < (1 / r->d_plus)) {
-        r->direz = PLUS;
+    // if ((1.0/r->d_minus)>(1.0/r->d_plus)) {
+    //     r->direz = MINUS;
+    // }
+    // if ((1.0 / r->d_minus) < (1.0 / r->d_plus)) {
+    //     r->direz = PLUS;
+    // }
+    const double eps = 1e-9;  // tolerance for floating-point comparison
+
+    if (r->d_minus != 0 && r->d_plus != 0)
+    {
+        // Same sign → reciprocal comparison flips direction
+        if ((r->d_minus > 0 && r->d_plus > 0) ||
+            (r->d_minus < 0 && r->d_plus < 0))
+        {
+            if (std::fabs(r->d_minus - r->d_plus) < eps)
+            {
+                r->direz = EQUAL;
+            }
+            else if (r->d_minus < r->d_plus)
+            {
+                r->direz = MINUS;
+            }
+            else // r->d_minus > r->d_plus
+            {
+                r->direz = PLUS;
+            }
+        }
+        // Different signs
+        else
+        {
+            if (r->d_minus > 0)
+                r->direz = MINUS;
+            else
+                r->direz = PLUS;
+        }
     }
 }
 
 
 
 int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, bool open) {
-    std::cout << "Detected circumcenter!\n";
     auto v_ptr = std::make_shared<Voronoi::NewDiagram::Vertex>();
     auto& v = *v_ptr;
 
     size_t next_index = (r_index + 1) % L.size();
     size_t next_next_index = (r_index + 2) % L.size();
 
-    auto& r = L[r_index];
-    auto& next = L[next_index];
-    auto& next_next = L[next_next_index];
+    auto r = L[r_index]; 
+    auto next = L[next_index]; 
+    auto next_next = L[next_next_index]; 
 
     v.triplet = std::vector{ next.eti_minus, next.eti_plus, next_next.eti_plus };
     v.point = circumcenter(v.triplet);
+
     next.edgein->next->head = v_ptr;
     next.edgein->next->twin->tail = v_ptr;
     next_next.edgein->next->head = v_ptr;
-    next_next.edgein->twin->tail = v_ptr;
+    next_next.edgein->next->twin->tail = v_ptr;
 
+    //std::cout << "Open: "<< open;
     if (E == 3) {
         if (!open) {
             r.edgein->next->head = v_ptr;
             r.edgein->next->twin->tail = v_ptr;
         }
         else {
+            next.edgein->next->next = next_next.edgein->next->twin; // TODO: maybe this is not necessary
+            next_next.edgein->next->next = next.edgein->next->twin; // TODO: maybe this is not necessary
             createPendingEdge(next.edgein->next, next_next.edgein->next->twin);
             r.edgein->next = next.edgein->next->next->twin;
-            next.edgein->next->next = r.edgeout;
+            next.edgein->next->next->next = r.edgeout;
             r.edgein->next->tail->infinite = true;
             r.edgein->next->twin->head->infinite = true;
         }
@@ -255,11 +296,25 @@ int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, b
         next_next.edgein->next->next = next.edgein->next->twin;
         r.edgein->next->next = next_next.edgein->next->twin;
 
-        L.erase(L.begin() + r_index);
-        L.erase(L.begin() + next_index - 1); // Adjust index after erasure
-        L.erase(L.begin() + next_next_index - 2);
-        E = 0;
+        // L.erase(L.begin() + r_index);
+        // L.erase(L.begin() + next_index - 1);
+        // L.erase(L.begin() + next_next_index - 2);
 
+        // TODO check if this is better-----------------------------
+        if (L.size() <= 3){
+            L.clear();
+        }else if (r_index + 2 < L.size()){
+            // No wrap, normal erase
+            L.erase(L.begin() + r_index, L.begin() + r_index + 3);
+        }else{
+            // Wrap-around case (like 2,0,1)
+            size_t k = (r_index + 3) % L.size();
+
+            L.erase(L.begin() + r_index, L.end());  // erase tail
+            L.erase(L.begin(), L.begin() + k);      // erase head
+        }
+        //---------------------------------------------------------
+        E = 0;
     }else{
         next_next.edgein->next->next = next.edgein->next->twin;
         createPendingEdge(next.edgein->next, next_next.edgein->next->twin);
@@ -270,13 +325,41 @@ int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, b
         p.eti_minus = p.edgein->label;
         p.eti_plus = p.edgeout->label;
 
-        L.erase(L.begin() + next_index);
-        L.erase(L.begin() + next_next_index - 1);
-        size_t p_index = r_index + 1;
-        L.insert(L.begin() + p_index, p);
+        // L.erase(L.begin() + next_index);
+        // L.erase(L.begin() + next_next_index - 1);
+        // size_t p_index = r_index + 1;
 
+        // TODO check if this is better-----------
+        size_t n = L.size();
+        size_t n1 = (r_index + 1) % n;
+        size_t n2 = (r_index + 2) % n;
+
+        std::vector<size_t> rem = { n1, n2 };
+        std::sort(rem.begin(), rem.end(), std::greater<size_t>());
+
+        // erase
+        for (size_t i : rem)
+            L.erase(L.begin() + i);
+
+        // fix r_index
+        if (n1 < r_index) r_index--;
+        if (n2 < r_index) r_index--;
+
+        // final p index
+        size_t p_index = (r_index + 1) % (L.size() + 1);
+        ////////-------------------------------
+
+        L.insert(L.begin() + p_index, p);
         E--;
 
+
+        auto & r_new = L[r_index]; //TODO check if this is correct
+        auto & p_new = L[p_index]; //TODO check if this is correct
+
+        // std::cout << "p.eti_minus: " << p.eti_minus->index << "\n";
+        // std::cout << "p.eti_plus: " << p.eti_plus->index << "\n";
+        // std::cout << "r.eti_minus: " << r.eti_minus->index <<  "\n"; // Here is the problem!
+        
         Point2D P = circumcenter(r.eti_minus->point, p.eti_minus->point, p.eti_plus->point);
         if (pointInsideRegion(P, r.edgein->head->point, p.edgeout->head->point)) {
             r.d_plus = dist(P, r.edgeout->tail->point);
@@ -385,54 +468,80 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
 
             for (size_t l_iter = 0; l_iter < L.size(); ++l_iter) {
                 size_t l_next = (l_iter + 1) % L.size();
+                //std::cout << "Circumcenter between points: " << L[l_iter].eti_minus->index << ", " << L[l_iter].eti_plus->index << ", " << L[l_next].eti_plus->index << "\n";
                 Point2D P = circumcenter(L[l_iter].eti_minus->point, L[l_iter].eti_plus->point, L[l_next].eti_plus->point);
 
-                if (pointInsideRegion(P, L[l_iter].edgein->head->point, L[l_next].edgein->head->point)) {
+                //std::cout << "Circumcenter at: " << P << "\n";
+                Point2D firstPoint, secondPoint;
+                // I added this so that the special vertex at infinite is correctly seen as inside the region TODO check if it's correct
+                if (!L[l_iter].edgein->head->infinite) {
+                    firstPoint = L[l_iter].edgein->head->point;
+                    if (L[l_next].edgein->head->infinite){
+                        firstPoint = L[l_iter].edgein->twin->head->point;
+                        secondPoint = L[l_iter].edgein->head->point;
+                    }else{
+                        secondPoint = L[l_next].edgein->head->point;
+                    }
+                }else{
+                    firstPoint = L[l_next].edgein->head->point;
+                    secondPoint = L[l_next].edgeout->head->point;
+                }
+                //std::cout << "Region defined by points: " << firstPoint << ", " << secondPoint << "\n";
+                //std::cout << "Circumcenter inside region: " << pointInsideRegion(P, firstPoint, secondPoint) << "\n";
+                if (pointInsideRegion(P, firstPoint, secondPoint)) {
                     if (!L[l_iter].edgeout->tail->infinite) {
                         L[l_iter].d_plus = dist(P, L[l_iter].edgeout->tail->point);
                     }
-                    if (!L[l_next].edgeout->tail) {
+                    if (!L[l_next].edgeout->tail->infinite) {
                         L[l_next].d_minus = dist(P, L[l_next].edgeout->tail->point);
                     }
+                    
                 }
                 else {
                     if (!L[l_iter].edgeout->tail->infinite) {
                         L[l_iter].d_plus = -dist(P, L[l_iter].edgeout->tail->point);
                     }
-                    if (!L[l_next].edgeout->tail) {
+                    if (!L[l_next].edgeout->tail->infinite) {
                         L[l_next].d_minus = -dist(P, L[l_next].edgeout->tail->point);
                     }
                 }
             }
 
+            int index = 0;
             for (auto& vertex : L) {
                 chooseDirection(&vertex);
-                std::cout << vertex <<"\n";
+                //std::cout << vertex <<"\n";
             }
 
             // Partition in 3 parts (second part)
             // I keep iterating over the special vertices until I finish the partitions to create
             size_t l_last_iter = L.size() - 1;
+            //std::cout << "Last special vertex to examine: " << L.at(l_last_iter) << "\n";
+
             int doSafety = 0;
             do {
-                while ((((l_last_iter + 2) % L.size()) != 0) && (L[(l_last_iter + 1) % L.size()].direz != MINUS || L[(l_last_iter + 2) % L.size()].direz != PLUS || L[(l_last_iter + 1) % L.size()].d_plus < 0)) {                        
+                std::cout << ((l_last_iter + 2) % L.size()) << " " << L[(l_last_iter + 1) % L.size()].direz << " " << L[(l_last_iter + 2) % L.size()].direz << " " << L[(l_last_iter + 1) % L.size()].d_plus << "\n";
+
+                while ((((l_last_iter + 2) % L.size()) != 0) && (L[(l_last_iter + 1) % L.size()].direz == MINUS || L[(l_last_iter + 2) % L.size()].direz == PLUS || L[(l_last_iter + 1) % L.size()].d_plus < 0)) {                        
                     l_last_iter = (l_last_iter + 1) % L.size();
                 }
-
+                std::cout << "I was examining vertex: " << L.at(l_last_iter) << "\n";
+                std::cout << L[(l_last_iter + 1) % L.size()].direz << " " << L[(l_last_iter + 2) % L.size()].direz << " " << L[(l_last_iter + 1) % L.size()].d_plus << L[(l_last_iter + 1) % L.size()].edgein->head->infinite << "\n";
                 // Check if there exists a circumcenter inside
                 if (L[(l_last_iter + 1) % L.size()].direz != MINUS &&
                     L[(l_last_iter + 2) % L.size()].direz != PLUS &&
                     L[(l_last_iter + 1) % L.size()].d_plus >= 0 &&
                     !(L[(l_last_iter + 1) % L.size()].edgein->head->infinite)) {
-
+                    std::cout << "Circumcenter found at special vertex index: " << (l_last_iter + 1) % L.size() << "\n";
                     E = circumcenterInside(l_last_iter, L, E, open);
                 }
                 else {
+                    std::cout << "Circumcenter not found \n";
                     for (size_t l_iter = 0; l_iter < L.size(); ++l_iter) {
                         L[(l_iter + 1) % L.size()].edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
                         L[l_iter].edgein->next->twin->tail = Voronoi::NewDiagram::Vertex::getNullVertex();
                         L[(l_iter + 1) % L.size()].edgein->next->next = L[l_iter].edgein->next->twin;
-                        L[l_iter].reg->firstEdge = L[l_iter].edgein->next->twin;
+                        L[l_iter].reg->firstEdge = L[l_iter].edgein->next->twin; // This doesn't work now!
                     }
                     L[0].edgein->next->twin->tail->infinite = true;
                     L[1].edgein->next = L[0].edgein->next->twin;
@@ -500,11 +609,11 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             // REMARK: this list will contain both new edges and old edges of the previous regions
             unionFind.add_UF(((*it)->ID)-(*firstNewRegion)->ID, *it); 
             Voronoi::NewDiagram::HalfEdgePtr e = (*it)->firstEdge;
-            //std::cout << "Following all the edges of region " << (*it)->ID << "\n";
+            std::cout << "Following all the edges of region " << (*it)->ID << "\n";
             int satefyLoop = 0;
             do{
                 e->region = (*it);
-                //std::cout << "Next edge\n" << *e <<"\n";
+                std::cout << "Next edge\n" << *e <<"\n";
                 E.push_back(e);
                 if (++satefyLoop>10000){
                     std::cout << "\nThis edge:\n" << *e << " and this edge:\n" << *(e->next) << " are stuck in a loop!\n";
@@ -515,7 +624,7 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             ++it;
         }
         std::cout << "I added all new regions to the union find structure!\n";
-        std::cout << "Number of edges to delete: " << E.size() <<"\n";
+        std::cout << "Total edges in the graph: " << E.size() <<"\n";
         std::list<Voronoi::NewDiagram::HalfEdgePtr>::iterator e = E.begin();
         while (e != E.end()){
             // I iterate over ListE: if an edge is actually a new edge (divides different regions) then I take it out of ListE
@@ -553,19 +662,20 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
                     auto e = node->region->firstEdge;
                     do{
                         e->region = t_ptr;
-                        if (newRegionFirstEdge == nullptr ||
-                            e->tail->infinite == true) {
+                        // TODO check this condition
+                        // Problem: I don't know the order in which I visit the subregions that form the fused region
+                        if (newRegionFirstEdge == nullptr || (e->tail->infinite == true && !same_sites(e->region->sites, e->twin->region->sites))){
                                 newRegionFirstEdge = e;
-                            }
-                            e = e->next;  
-                        }while (e != node->region->firstEdge);
-                        node = node->next;
-                    }
-                    // If a region is composed of only one component I don't need to do anything,
-                    // otherwise I create a new record for the first component region: this will represent the whole fused region
-                    // I insert this region in the list of regions ListR
-                    t_ptr->firstEdge = newRegionFirstEdge;
-                    //std::cout << *newRegionFirstEdge;
+                        }
+                        e = e->next;  
+                    }while (e != node->region->firstEdge);
+                    node = node->next;
+                }
+                // If a region is composed of only one component I don't need to do anything,
+                // otherwise I create a new record for the first component region: this will represent the whole fused region
+                // I insert this region in the list of regions ListR
+                t_ptr->firstEdge = newRegionFirstEdge;
+                //std::cout << *newRegionFirstEdge;
                 R.push_back(t_ptr);
                 std::cout << "New merged region:\n" << *t_ptr <<"\n";
             }
