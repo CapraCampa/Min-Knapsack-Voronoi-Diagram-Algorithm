@@ -18,7 +18,9 @@ One important bug: if I use & I am not modifying a copy but also the original ob
 
 I still have many memory leaks!!
 
-Next thing to fix: It seems that I sometimes forget to assign the regions to the edges! But which region should I assign? when? when do i check an edge region?
+Next thing to fix: I have to follow the example and assure that the special vertices are (1) correctly constructed (2) correctly iterated (3) correctly update connections AND region
+
+I also need to understand if I need to keep regions update or not
 
 ## What should happen for each example
 - equilatero_norm &#8594; 3 points, I need exactly 2 to satisfy the request. I expect to see all regions of order 2.
