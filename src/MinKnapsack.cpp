@@ -391,7 +391,7 @@ int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, b
         std::cout << "Circumcenter at position: " << P << "\n";
         std::cout << "Check if inside w.r.t. line from: " << r_ref.edgein->head->point << " to " << r_ref.edgeout->head->point << "\n";
         std::cout << "Point inside region: " << pointInsideRegion(P, r_ref.edgein->head->point, r_ref.edgeout->head->point) << "\n";
-        if (pointInsideRegion(P, r_ref.edgein->head->point, r_ref.edgeout->head->point)) { // TODO check if this is correct
+        if (pointInsideRegion(P, p_ref.edgein->tail->point, p_ref.edgein->head->point)) { // TODO check if this is correct
             r_ref.d_plus = dist(P, r_ref.edgeout->tail->point);
             p_ref.d_minus = dist(P, p_ref.edgein->head->point);
         }
@@ -405,7 +405,7 @@ int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, b
         std::cout << "Circumcenter at position: " << P1 << "\n";
         std::cout << "Check if inside w.r.t. line from: " << p_ref.edgeout->head->point << " to " << next_ref.edgein->head->point << "\n";
         std::cout << "Point inside region: " << pointInsideRegion(P1, p_ref.edgeout->head->point, next_ref.edgein->head->point) << "\n";
-        if (pointInsideRegion(P1, p_ref.edgeout->head->point, next_ref.edgein->head->point)) { // TODO check if this is correct
+        if (pointInsideRegion(P1, next_ref.edgein->tail->point, next_ref.edgein->tail->point)) { // TODO check if this is correct
             p_ref.d_plus = dist(P1, p_ref.edgeout->tail->point);
             next_ref.d_minus = dist(P1, next_ref.edgein->head->point);
         }
@@ -559,7 +559,7 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
             //std::cout << "Last special vertex to examine: " << L.at(l_last_iter) << "\n";
 
             int doSafety = 0;
-            do {
+            while(true) {
                 //std::cout << ((l_last_iter + 2) % L.size()) << " " << L[(l_last_iter + 1) % L.size()].direz << " " << L[(l_last_iter + 2) % L.size()].direz << " " << L[(l_last_iter + 1) % L.size()].d_plus << "\n";
                 doSafety++;
                 if (doSafety > 10) {
@@ -567,6 +567,7 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                     break;
                 }
                 // This condition skips all special vertices that cannot lead to a circumcenter inside
+                //((((l_last_iter + 2) % L.size()) != 0)) &&
                 while (((((l_last_iter + 2) % L.size()) != 0)) && (L[(l_last_iter + 1) % L.size()].direz == MINUS || L[(l_last_iter + 2) % L.size()].direz == PLUS || L[(l_last_iter + 1) % L.size()].d_plus < 0)) {                        
                     l_last_iter = (l_last_iter + 1) % L.size();
                 }
@@ -602,7 +603,14 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                     L.clear();
                     E = 0;
                 }
-            } while (E != 0);
+                if (E!=0){
+                    // By default I pass to the next special vertex
+                    l_last_iter = (l_last_iter + 1) % L.size();
+                }else{
+                    std::cout << "Finished partitioning region!\n";
+                    break;
+                }
+            }
         }
     }
 

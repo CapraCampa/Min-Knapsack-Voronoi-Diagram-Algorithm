@@ -10,9 +10,9 @@ FILE = Data/equilatero_norm.txt
 #FILE = Data/example_3.txt # OK!
 #FILE = Data/example_4.txt # OK!
 #FILE = Data/four_points.txt # Ok, I obtain only regions of order 2!
-    
+FILE = Data/hardest_one.txt # OK! The closed regions is completely partitioned in order-2 regions    
+
 # doesn't work (ordered based on which I want to fix first)
-FILE = Data/hardest_one.txt
 #FILE = Data/example_1.txt
 #FILE = Data/example_2.txt
 
