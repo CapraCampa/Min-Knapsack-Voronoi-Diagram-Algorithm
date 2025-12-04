@@ -19,8 +19,8 @@ FILE = Data/hardest_one.txt # OK! The closed regions is completely partitioned i
 #FILE = Data/Lee_fig2.txt
 #FILE = Data/Lee_fig2_2.txt
 #FILE = Data/Lee_2.txt
-#FILE = Data/degenerate_1.txt # I have no idea how it should even be fixed
 
+#FILE = Data/degenerate_1.txt # I have no idea how it should even work correctly
 
 
 # Generic flags that are always valid 
