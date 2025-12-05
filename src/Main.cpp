@@ -424,8 +424,14 @@ int main(int argc, char* argv[]) {
     // std::cout << "UPDATED STRUCTURE\n";
     // auto& fs = faces;
     // for (const auto& face : fs) {
+    //     if (face==nullptr) continue;
+    //     std::cout << *face <<"\n";
     //     Voronoi::NewDiagram::HalfEdgePtr x = face->firstEdge;
     //     do {
+    //         if (x == nullptr) {
+    //             std::cout << "Encountered null half-edge!" << std::endl;
+    //             break; // Exit the loop if x is null to prevent dereferencing
+    //         }
     //         std::cout << *x << "\n";
     //         x = x->next;
     //     } while (x != face->firstEdge);
@@ -475,7 +481,7 @@ int main(int argc, char* argv[]) {
             } while (edge && edge != face->firstEdge);
         }
 
-        bool saved = false;
+        bool saved = true;
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
