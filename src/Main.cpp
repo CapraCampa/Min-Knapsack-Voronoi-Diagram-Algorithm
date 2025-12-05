@@ -209,7 +209,6 @@ void modifyStructure(const mygal::Diagram<double>& diagram,
         }
 
         if (mapFaces.find(e.incidentFace) == mapFaces.end()) {
-            //?
             auto f_incident = newDiagram.createFace(progressiveID);
             f_incident->flag = true;
             f_incident->sites = { newDiagram.getSite(e.incidentFace->site->index) };
@@ -406,16 +405,16 @@ int main(int argc, char* argv[]) {
     modifyStructure(diagram, newDiagram);    
     auto& faces = newDiagram.getFaces();
 
-    std::cout << "MODIFIED STRUCTURE\n";
-    auto& fs = newDiagram.getFaces();
-    for (const auto& face : fs) {
-        std::cout << *face <<"\n";
-        Voronoi::NewDiagram::HalfEdgePtr x = face->firstEdge;
-        do {
-            std::cout << *x << "\n";
-            x = x->next;
-        } while (x != face->firstEdge);
-    }
+    // std::cout << "MODIFIED STRUCTURE\n";
+    // auto& fs = newDiagram.getFaces();
+    // for (const auto& face : fs) {
+    //     std::cout << *face <<"\n";
+    //     Voronoi::NewDiagram::HalfEdgePtr x = face->firstEdge;
+    //     do {
+    //         std::cout << *x << "\n";
+    //         x = x->next;
+    //     } while (x != face->firstEdge);
+    // }
 
     if (minKnapsack){
         //Construct the min-knapsack Voronoi diagram

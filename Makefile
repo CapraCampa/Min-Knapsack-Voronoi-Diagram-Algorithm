@@ -4,7 +4,7 @@ CC = g++
 # Default file
 FILE = Data/equilatero_norm.txt
 
-# work
+# work according to ground truth
 #FILE = Data/Lee_1.txt # OK! but a bit cheating bcs this one should just stay order-1
 #FILE = Data/equilatero_norm.txt # OK, I obtain only regions of order 2!
 #FILE = Data/example_3.txt # OK!
@@ -12,16 +12,14 @@ FILE = Data/equilatero_norm.txt
 #FILE = Data/four_points.txt # Ok, I obtain only regions of order 2!
 #FILE = Data/hardest_one.txt # OK! The closed regions is completely partitioned in order-2 regions 
 FILE = Data/best_example.txt
+#FILE = Data/Lee_fig2.txt # OK! Since I need exactly all points all regions get fused together and I get no region at all
 
 
-# doesn't work (ordered based on which I want to fix first)
-#FILE = Data/example_1.txt
+# I don't know the ground truth for these ones
+#FILE = Data/example_1.txt 
 #FILE = Data/example_2.txt
-
-#FILE = Data/Lee_fig2.txt
 #FILE = Data/Lee_fig2_2.txt
 #FILE = Data/Lee_2.txt
-
 #FILE = Data/degenerate_1.txt # I have no idea how it should even work correctly
 
 
