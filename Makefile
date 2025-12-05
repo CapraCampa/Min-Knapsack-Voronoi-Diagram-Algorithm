@@ -8,10 +8,10 @@ FILE = Data/equilatero_norm.txt
 #FILE = Data/Lee_1.txt # OK! but a bit cheating bcs this one should just stay order-1
 #FILE = Data/equilatero_norm.txt # OK, I obtain only regions of order 2!
 #FILE = Data/example_3.txt # OK!
-#FILE = Data/example_4.txt # OK!
+FILE = Data/example_4.txt # OK!
 #FILE = Data/four_points.txt # Ok, I obtain only regions of order 2!
 #FILE = Data/hardest_one.txt # OK! The closed regions is completely partitioned in order-2 regions 
-FILE = Data/best_example.txt
+#FILE = Data/best_example.txt
 #FILE = Data/Lee_fig2.txt # OK! Since I need exactly all points all regions get fused together and I get no region at all
 
 

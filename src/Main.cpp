@@ -475,6 +475,7 @@ int main(int argc, char* argv[]) {
             } while (edge && edge != face->firstEdge);
         }
 
+        bool saved = false;
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
@@ -504,6 +505,17 @@ int main(int argc, char* argv[]) {
 
             // Display the window's current frame
             window.display();
+
+            if (!saved) {
+                sf::Texture texture;
+                texture.create(window.getSize().x, window.getSize().y);
+                texture.update(window);
+                std::string suffix = minKnapsack ? "_MKVD" : "_base";   // change if needed
+                std::string folder = "Images";
+                std::string fullPath = folder + "/" +  std::filesystem::path(fileName).stem().string() + suffix + ".png";
+                texture.copyToImage().saveToFile(fullPath);
+                saved = true;
+            }
         }
     }
 

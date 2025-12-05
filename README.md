@@ -39,4 +39,6 @@ The **flags** do the following:
 
 This work is still in progress, many tests are available in the Data section.
 
+Since the library used for computing the 1-order Voronoi Diagram works best with coordinates between 0 and 1, all examples proposed have been scaled in those ranges.
+
 © 2025. This work is openly licensed via CC BY-NC
