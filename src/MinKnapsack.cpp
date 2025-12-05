@@ -173,7 +173,7 @@ Voronoi::NewDiagram::FacePtr createRegion(std::list<Voronoi::NewDiagram::FacePtr
     t.firstEdge = e;
     if ((r->weight + lambda->capacity)>total) {
         t.sites = r->sites;
-        t.weight = r->weight;
+        t.weight = r->weight + lambda->capacity; //TODO: i changed this... it doesn't really sense to keep the pivot weight separate
         t.pivot = lambda;
     }
     else {
@@ -183,7 +183,7 @@ Voronoi::NewDiagram::FacePtr createRegion(std::list<Voronoi::NewDiagram::FacePtr
         t.pivot = nullptr;
     }
     R.push_back(t_ptr);
-    //std::cout << "I added the region: " << *R.back() <<"\n";
+    std::cout << "I added the region: " << *R.back() <<"\n";
     return t_ptr;
 }
 
@@ -207,7 +207,6 @@ void createPendingEdge(Voronoi::NewDiagram::HalfEdgePtr e, Voronoi::NewDiagram::
     b->next = f;
     e->next = a;
 }
-
 
 Point2D circumcenter(Point2D p1, Point2D p2, Point2D p3) {
     Point2D u1 = (p1 - p2).normalized(), u2 = (p3 - p2).normalized();
@@ -314,6 +313,7 @@ int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, b
     //std::cout << "Open: "<< open;
     if (E == 3) {
         if (!open) {
+            std::cout << "Last 3 labels in closed region\n";
             r.edgein->next->head = v_ptr;
             r.edgein->next->twin->tail = v_ptr;
         // TODO i am not sure these three are really needed
@@ -321,6 +321,7 @@ int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, b
         r.edgein->next->next = next_next.edgein->next->twin;
         }
         else {
+            std::cout << "Last 3 labels in open region\n";
             createPendingEdge(next.edgein->next, next_next.edgein->next->twin);
             r.edgein->next = next.edgein->next->next->twin;
             next.edgein->next->next->next = r.edgeout;
@@ -350,8 +351,8 @@ int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, b
         //---------------------------------------------------------
         E = 0;
     }else{
+        std::cout << "Circumcenter found at subsequent special vertex\n";
         next_next.edgein->next->next = next.edgein->next->twin;
-        std::cout << "labels: " << next.edgein->next->label->index << ", " << next_next.edgein->next->twin->label->index << "\n";
         createPendingEdge(next.edgein->next, next_next.edgein->next->twin);
 
         Special_vertex p = Special_vertex{};
@@ -405,9 +406,9 @@ int circumcenterInside(size_t& r_index, std::vector<Special_vertex>& L, int E, b
         Point2D P1 = circumcenter(p_ref.eti_minus->point, p_ref.eti_plus->point, next_ref.eti_plus->point);
         std::cout << "Circumcenter between points: " << p_ref.eti_minus->index << ", " << p_ref.eti_plus->index << ", " << next_ref.eti_plus->index << "\n";
         std::cout << "Circumcenter at position: " << P1 << "\n";
-        std::cout << "Check if inside w.r.t. line from: " << p_ref.edgeout->head->point << " to " << next_ref.edgein->head->point << "\n";
-        std::cout << "Point inside region: " << pointInsideRegion(P1, p_ref.edgeout->head->point, next_ref.edgein->head->point) << "\n";
-        if (pointInsideRegion(P1, next_ref.edgein->tail->point, next_ref.edgein->tail->point)) { // TODO check if this is correct
+        std::cout << "Check if inside w.r.t. line from: " << p_ref.edgein->head->point << " to " << p_ref.edgeout->head->point << "\n";
+        std::cout << "Point inside region: " << pointInsideRegion(P1, p_ref.edgein->head->point, p_ref.edgeout->head->point) << "\n";
+        if (pointInsideRegion(P1, p_ref.edgein->head->point, p_ref.edgeout->head->point)) { // TODO check if this is correct
             p_ref.d_plus = dist(P1, p_ref.edgeout->tail->point);
             next_ref.d_minus = dist(P1, next_ref.edgein->head->point);
         }
@@ -443,7 +444,7 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
         e.at(0) = e.at(0)->next;
     }
 
-    // If there are never changes in the external labels then it's a special case: we don't need to partition the region but just to add it as it is 
+    // If there are never changes in the external labels then it's a special case: we don't need to partition the region but just to add it as it is (and I already added it with the previous createRegion!)
     if (e.at(0)->next->twin->label != lambda.at(0)) {
         lambda.push_back(e.at(0)->next->twin->label);
         e.push_back(e.at(0)->next);
@@ -457,6 +458,7 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
 
         // Check if I just need to partition in two subregions
         if ((e.at(1))->next->twin->label == lambda.at(0)) {
+            std::cout << "Partitioning region in 2 subregions\n";
             e.at(0)->next->head = e.at(1)->head;
             e.at(0)->next->twin->tail = e.at(1)->head;
             e.at(0)->next->next = e.at(1)->next;
@@ -550,12 +552,12 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
             }
 
             int index = 0;
-            std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!Initial special vertices and their directions:\n";
+            //std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!Initial special vertices and their directions:\n";
             for (auto& vertex : L) {
                 chooseDirection(&vertex);
                 //std::cout << vertex <<"\n";
             }
-            std::cout << "End of list!!!!!!!!!!!!!!!!!!!!!!!!\n";
+            //std::cout << "End of list!!!!!!!!!!!!!!!!!!!!!!!!\n";
 
             // Partition in 3 parts (second part)
             // I keep iterating over the special vertices until I finish the partitions to create
@@ -565,11 +567,11 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
             int doSafety = 0;
             while(true) {
                 //std::cout << ((l_last_iter + 2) % L.size()) << " " << L[(l_last_iter + 1) % L.size()].direz << " " << L[(l_last_iter + 2) % L.size()].direz << " " << L[(l_last_iter + 1) % L.size()].d_plus << "\n";
-                doSafety++;
-                if (doSafety > 10) {
-                    std::cerr << "Safety break in partitioning loop!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
-                    break;
-                }
+                // doSafety++;
+                // if (doSafety > 10) {
+                //     std::cerr << "Safety break in partitioning loop!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
+                //     break;
+                // }
                 // This condition skips all special vertices that cannot lead to a circumcenter inside
                 //((((l_last_iter + 2) % L.size()) != 0)) && TODO
                 //((((l_last_iter + 2) % L.size()) == 0) && open) || <- in this case (l_last_iter + 1) would be the last special vertex, which is infinite, so I skip it
@@ -587,13 +589,12 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                     L[(l_last_iter + 2) % L.size()].direz != PLUS &&
                     L[(l_last_iter + 1) % L.size()].d_plus > 0 &&
                     !(L[(l_last_iter + 1) % L.size()].edgein->head->infinite)) {
-                    std::cout << "Circumcenter found at subsequent special vertex\n";
                     E = circumcenterInside(l_last_iter, L, E, open);
                 }
                 else if (open==true) {
                     // CAREFUL: It should enter here ONLY if the region is open! Otherwise it should have found the last circumcenter and got to E=0 !!
                     // Maybe I should add a check here to be sure that the region is open
-                    std::cout << "Circumcenter not found \n";
+                    std::cout << "Circumcenter not found: connecting all edges to infinite \n";
                     for (size_t l_iter = 0; l_iter < L.size()-2; ++l_iter) {
                         //std::cout << L[l_iter] << "\n";
                         L[(l_iter + 1) % L.size()].edgein->next->head = Voronoi::NewDiagram::Vertex::getNullVertex();
@@ -626,6 +627,8 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
                 }
             }
         }
+    }else{
+        std::cout << "Added same region with one point more\n";
     }
 
 }
@@ -634,19 +637,23 @@ void partition(Voronoi::NewDiagram::FacePtr& r_ptr, std::list<Voronoi::NewDiagra
 std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& diagram, std::vector<std::pair<Point2D, double>>& points, double capacity)
 {
 	std::list<Voronoi::NewDiagram::FacePtr>& R = diagram.getFaces();
+    // these two are global variables because I use them inside other functions,
+    // TODO remove global variables
     total = capacity;
     nR = R.size() - 1;
     std::list<Voronoi::NewDiagram::FacePtr>::iterator it = R.begin();
     long firstNew = R.size();
     // I keep examining regions until I arrive to the end of the list
     // If I comment the while I test a single iteration!
-    //while(it != R.end()){
+    while(it != R.end()){
+        firstNew = R.back()->ID + 1;
+        std::list<Voronoi::NewDiagram::FacePtr>::iterator firstNewRegion = R.empty() ? R.end() : std::prev(R.end());
         // I partition all the new regions and add new ones to the end of the list
         while (it != R.end() && (*it)->ID < firstNew) {
-            std::cout << "I examine the region: " << (*it)->ID << " with point: "<< (*it)->sites.at(0)->index << "\n";
+            std::cout << "I examine the region: " << *(*it);
             //std::cout << "Point: " << ((*it)->sites).at(0)->point << "\n";
             if ((*it)->flag == 1 && (*it)->pivot == nullptr && ((*it)->weight < capacity)) {
-                //std::cout << "I divide the region: " << (*it)->ID << "\n";
+                std::cout << "I divide the region: " << (*it)->ID << "\n";
                 partition(*it, R);
                 (*it)->flag = 0;
                 // I erase the current region and pass to the next (putting the flag to 0 wasn't really necessary)
@@ -657,13 +664,13 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             ++it;
         }
         // If no new regions have been added I return right away!
-        if (firstNew==R.size()){
+        if (firstNew==(R.back()->ID + 1)){
             return R;
         }
         std::cout << "I partitioned all regions!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
         long lastNewBeforeMerge = nR;
-        std::list<Voronoi::NewDiagram::FacePtr>::iterator firstNewRegion = std::next(R.begin(), firstNew);
-        it = std::next(R.begin(), firstNew);
+        firstNewRegion = std::next(firstNewRegion); // I set it to point to the first new region
+        it = firstNewRegion;
 
         // Create structure Union-Find
         UF unionFind = UF(lastNewBeforeMerge-((*firstNewRegion)->ID)+1);
@@ -680,16 +687,23 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             Voronoi::NewDiagram::HalfEdgePtr e = (*it)->firstEdge;
             std::cout << "Following all the edges of region " << (*it)->ID << "\n";
             int satefyLoop = 0;
+            auto newFirstEdge = e;
             do{
                 e->region = (*it);
                 std::cout << "Next edge\n" << *e <<"\n";
                 E.push_back(e);
-                if (++satefyLoop>10){
-                    std::cout << "\nThis edge:\n" << *e << " and this edge:\n" << *(e->next) << " are stuck in a loop!\n";
-                    break;
+                if (e->tail->infinite){
+                    //TODO maybe there is a way to keep it correctly updated during the partitioning itself
+                    // this is the correct firstedge! I save it to update it at the end of the traversing
+                    newFirstEdge = e;
                 }
+                // if (++satefyLoop>10){
+                //     std::cout << "\nThis edge:\n" << *e << " and this edge:\n" << *(e->next) << " are stuck in a loop!\n";
+                //     break;
+                // }
                 e = e->next;
             }while(e!=(*it)->firstEdge);
+            (*it)->firstEdge = newFirstEdge;
             ++it;
         }
         std::cout << "I added all new regions to the union find structure!\n";
@@ -741,8 +755,7 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
                     }while (e != node->region->firstEdge);
                     node = node->next;
                 }
-                // If a region is composed of only one component I don't need to do anything,
-                // otherwise I create a new record for the first component region: this will represent the whole fused region
+                // If a region is composed of many components, I create a new record for the first component region: this will represent the whole fused region
                 // I insert this region in the list of regions ListR
                 t_ptr->firstEdge = newRegionFirstEdge;
                 //std::cout << *newRegionFirstEdge;
@@ -776,6 +789,9 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
         while (it != R.end()) {
             if (!(*it)->flag) {
                 //std::cout << "I deleted region with ID: " << (*it)->ID <<"\n";
+                if(it==firstNewRegion){
+                    firstNewRegion = std::next(firstNewRegion);
+                }
                 it = R.erase(it); // erase safely
             } else {
                 //std::cout << "Remaining region:\n" << *(*it) <<"\n";
@@ -783,9 +799,7 @@ std::list<Voronoi::NewDiagram::FacePtr> build_minKnapsack(Voronoi::NewDiagram& d
             }
         }
         it = firstNewRegion;
-        firstNew = R.size()-1;
-
         std::cout << "I deleted all useless regions!\n";
-    //}
+    }
     return R;
 }
